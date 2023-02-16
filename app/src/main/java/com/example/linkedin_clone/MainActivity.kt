@@ -13,8 +13,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.linkedin_clone.Fragments.HomeFragment
+import com.example.linkedin_clone.Fragments.JobsFragment
+import com.example.linkedin_clone.Fragments.NetworkFragment
+import com.example.linkedin_clone.Fragments.NotificationFragment
 import com.example.linkedin_clone.databinding.ActivityMainBinding
-import com.example.linkedin_clone.ui.Fragments.*
+import com.example.linkedin_clone.Fragments.*
 import com.example.linkedin_clone.ui.Profile
 import com.google.android.material.navigation.NavigationView
 

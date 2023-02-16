@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Fragments.HomeFragment">
+    tools:context=".Fragments.HomeFragment">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profileImg"
@@ -20,26 +20,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_search_input"
+            android:background="@drawable/background"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_6sdp"
             android:layout_marginStart="@dimen/_6sdp"
-            android:backgroundTint="#686868"
+            android:layout_marginTop="@dimen/_6sdp"
             android:drawableStart="@drawable/ic_search_black_24dp"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:maxLines="1"
             android:paddingStart="@dimen/_5sdp"
             android:paddingEnd="@dimen/_5sdp"
+            android:text="Search"
             android:textColor="@color/black"
-            android:textColorHint="#D7797979"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/profileImg"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Search" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"

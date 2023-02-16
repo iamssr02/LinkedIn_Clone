@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.custom_user.CustomUserActivity">
+    tools:context=".ui.Profile">
 
     <RelativeLayout
         android:id="@+id/edit_about_layout"
@@ -203,7 +203,7 @@
                             android:textColor="@color/black"
                             android:textColorHint="#D7797979"
                             android:textSize="16sp"
-                            tools:text="Saksham Sharma" />
+                            tools:text="Search" />
 
 
                     </RelativeLayout>
@@ -307,7 +307,7 @@
                         android:orientation="horizontal">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/connectBtn"
+                            android:id="@+id/Btn1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -328,10 +328,10 @@
                                     android:layout_height="32dp">
 
                                     <TextView
+                                        android:id="@+id/connectBtn"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerInParent="true"
-                                        android:layout_centerVertical="true"
                                         android:gravity="center"
                                         android:paddingStart="10dp"
                                         android:paddingEnd="10dp"
@@ -369,10 +369,10 @@
 
 
                                     <TextView
+                                        android:id="@+id/messageBtn"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerInParent="true"
-                                        android:layout_centerVertical="true"
                                         android:gravity="center"
                                         android:paddingStart="10dp"
                                         android:paddingEnd="10dp"

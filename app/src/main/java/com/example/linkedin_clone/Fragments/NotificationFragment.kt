@@ -1,4 +1,4 @@
-package com.example.linkedin_clone.ui.Fragments
+package com.example.linkedin_clone.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
