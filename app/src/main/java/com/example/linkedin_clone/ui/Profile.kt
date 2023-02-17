@@ -6,35 +6,176 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import com.example.linkedin_clone.DataClasses.User
 import com.example.linkedin_clone.R
 import com.example.linkedin_clone.searchActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
+import org.w3c.dom.Text
 
 class Profile : AppCompatActivity() {
-    private lateinit var profileId : String
+    private lateinit var profileId: String
     private lateinit var firebaseUser: FirebaseUser
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         findViewById<TextView>(R.id.item_search_input)?.setOnClickListener {
-            val intent = Intent (this, searchActivity::class.java)
+            val intent = Intent(this, searchActivity::class.java)
             startActivity(intent)
         }
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
         val pref = this.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
-        if (pref != null){
+        if (pref != null) {
             this.profileId = pref.getString("profileId", "none").toString()
         }
-        if (profileId == firebaseUser.uid){
+        if (profileId == firebaseUser.uid) {
             findViewById<TextView>(R.id.connectBtn).text = "Open to"
             findViewById<TextView>(R.id.messageBtn).text = "Add section"
-        }
-        else if (profileId != firebaseUser.uid){
-            findViewById<TextView>(R.id.connectBtn).text = "Connect"
+        } else if (profileId != firebaseUser.uid) {
+            checkFollowAndFollowing()
             findViewById<TextView>(R.id.messageBtn).text = "Message"
         }
+        findViewById<CardView>(R.id.Btn1).setOnClickListener {
+            val getButtonText = findViewById<TextView>(R.id.connectBtn).text.toString()
+            when {
+                getButtonText == "Connect" -> {
+                    firebaseUser.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(it1)
+                            .child("Following").child(profileId).setValue(true)
+                    }
 
+                    firebaseUser.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(profileId)
+                            .child("Followers").child(it1.toString()).setValue(true)
+                    }
+                }
+
+                getButtonText == "Connected" -> {
+                    firebaseUser?.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(it1.toString())
+                            .child("Following").child(profileId).removeValue()
+                    }
+
+                    firebaseUser.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(profileId)
+                            .child("Followers").child(it1.toString()).removeValue()
+                    }
+                }
+            }
+        }
+
+        getFollowers()
+        getFollowings()
+        userInfo()
+    }
+
+    private fun getFollowers() {
+        val followersRef = FirebaseDatabase.getInstance().reference
+            .child("Follow").child(profileId)
+            .child("Followers")
+        followersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    //Getting number of followings of a profile Id
+    private fun getFollowings() {
+        val followersRef = FirebaseDatabase.getInstance().reference
+            .child("Follow").child(profileId)
+            .child("Following")
+        followersRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+
+    //Getting user info of a Profile Id
+    private fun userInfo() {
+        val userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
+        userRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val user = snapshot.getValue<User>(User::class.java)
+                    findViewById<TextView>(R.id.txt_name)?.text = user!!.getName()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        val pref = this.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
+        pref?.putString("profileId", firebaseUser.uid)
+        pref?.apply()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val pref = this.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
+        pref?.putString("profileId", firebaseUser.uid)
+        pref?.apply()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        val pref = this.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
+        pref?.putString("profileId", firebaseUser.uid)
+        pref?.apply()
+    }
+    private fun checkFollowAndFollowing() {
+        val followingRef = firebaseUser?.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow").child(it1.toString())
+                .child("Following")}
+        if (followingRef != null){
+            followingRef.addValueEventListener(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    //chechking whether we follow the user or not
+                    if(snapshot.child(profileId).exists()){
+                        findViewById<TextView>(R.id.connectBtn)?.text = "Connected"
+                    }
+                    else{
+                        findViewById<TextView>(R.id.connectBtn)?.text = "Connect"
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
+        }
     }
 }
