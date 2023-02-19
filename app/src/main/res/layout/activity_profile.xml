@@ -290,6 +290,7 @@
                         tools:text="Dehradun, Uttarakhand, India" />
 
                     <TextView
+                        android:id="@+id/connectionsNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"

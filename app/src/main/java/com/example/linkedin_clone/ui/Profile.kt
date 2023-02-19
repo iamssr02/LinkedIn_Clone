@@ -50,7 +50,7 @@ class Profile : AppCompatActivity() {
             findViewById<TextView>(R.id.connectBtn).text = "Open to"
             findViewById<TextView>(R.id.messageBtn).text = "Add section"
         } else if (profileId != firebaseUser.uid) {
-//            checkFollowAndFollowing()
+            checkFollowAndFollowing()
             findViewById<TextView>(R.id.messageBtn).text = "Message"
         }
         findViewById<CardView>(R.id.Btn1).setOnClickListener {
@@ -93,8 +93,7 @@ class Profile : AppCompatActivity() {
             }
         }
 
-//        getFollowers()
-//        getFollowings()
+        getFollowers()
         userInfo()
     }
 
@@ -105,6 +104,8 @@ class Profile : AppCompatActivity() {
         followersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
+                    findViewById<TextView>(R.id.connectionsNumber)?.text =
+                       "${ snapshot.childrenCount.toString() } connections"
                 }
             }
 
@@ -113,25 +114,6 @@ class Profile : AppCompatActivity() {
             }
         })
     }
-
-    //Getting number of followings of a profile Id
-    private fun getFollowings() {
-        val followersRef = FirebaseDatabase.getInstance().reference
-            .child("Follow").child(profileId)
-            .child("Following")
-        followersRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
-    }
-
 
     //Getting user info of a Profile Id
     private fun userInfo() {
@@ -177,7 +159,7 @@ class Profile : AppCompatActivity() {
         val followingRef = firebaseUser?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())
-                .child("Following")}
+                .child("Connections")}
         if (followingRef != null){
             followingRef.addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
