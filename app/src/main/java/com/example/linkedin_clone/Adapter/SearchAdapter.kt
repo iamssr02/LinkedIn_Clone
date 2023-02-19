@@ -26,7 +26,6 @@ class SearchAdapter (private var mContext: Context,
                      private var mUser: List<User>,
                      private var isFragment:Boolean = false):
     RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
-    private var firebaseUser : FirebaseUser? = FirebaseAuth.getInstance().currentUser
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAdapter.ViewHolder {
         val view: View = LayoutInflater.from(mContext).inflate(R.layout.search_item_layout, parent, false)
         return SearchAdapter.ViewHolder(view)
@@ -41,7 +40,6 @@ class SearchAdapter (private var mContext: Context,
         holder.name.text = user.getName()
 
 //        Picasso.get().load(user.getImage()).placeholder(R.drawable.user).into(holder.profileImage)
-//        checkFollowingStatus(user.getUID(),holder.followBtn)
 
         holder.itemView.setOnClickListener {
             val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
@@ -49,73 +47,6 @@ class SearchAdapter (private var mContext: Context,
             pref.apply()
             (mContext as FragmentActivity).startActivity(Intent(this@SearchAdapter.mContext,Profile::class.java))
         }
-
-//        holder.followBtn.setOnClickListener {
-//            if(holder.followBtn.text.toString()=="Follow"){
-//                firebaseUser?.uid.let { it1 ->
-//                    FirebaseDatabase.getInstance().reference
-//                        .child("Follow").child(it1.toString())
-//                        .child("Following").child(user.getUID())
-//                        .setValue(true).addOnCompleteListener { task ->
-//                            if(task.isSuccessful){
-//                                firebaseUser?.uid.let { it1 ->
-//                                    FirebaseDatabase.getInstance().reference
-//                                        .child("Follow").child(user.getUID())
-//                                        .child("Followers").child((it1.toString()))
-//                                        .setValue(true).addOnCompleteListener { task ->
-//                                            if (task.isSuccessful){
-//
-//                                            }
-//                                        }
-//                                }
-//                            }
-//                        }
-//                }
-//            }
-//            else{
-//                firebaseUser?.uid.let { it1 ->
-//                    FirebaseDatabase.getInstance().reference
-//                        .child("Follow").child(it1.toString())
-//                        .child("Following").child(user.getUID())
-//                        .removeValue().addOnCompleteListener { task ->
-//                            if(task.isSuccessful){
-//                                firebaseUser?.uid.let { it1 ->
-//                                    FirebaseDatabase.getInstance().reference
-//                                        .child("Follow").child(user.getUID())
-//                                        .child("Followers").child((it1.toString()))
-//                                        .removeValue().addOnCompleteListener { task ->
-//                                            if (task.isSuccessful){
-//
-//                                            }
-//                                        }
-//                                }
-//                            }
-//                        }
-//                }
-//            }
-//        }
-    }
-
-    private fun checkFollowingStatus(uid: String, followBtn: Button) {
-        val followingRef = firebaseUser?.uid.let { it1 ->
-            FirebaseDatabase.getInstance().reference
-                .child("Follow").child(it1.toString())
-                .child("Following")
-        }
-        followingRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.child(uid).exists()){
-                    followBtn.text = "Following"
-                }
-                else{
-                    followBtn.text = "Follow"
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
     }
 
     class ViewHolder(@NonNull itemView : View): RecyclerView.ViewHolder(itemView){

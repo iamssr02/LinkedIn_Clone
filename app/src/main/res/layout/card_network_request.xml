@@ -118,7 +118,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:layout_centerVertical="true"
                                 android:padding="@dimen/_2sdp"
                                 android:src="@drawable/ic_baseline_close_24"
                                 app:tint="@color/gray" />

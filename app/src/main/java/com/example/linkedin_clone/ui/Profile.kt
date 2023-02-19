@@ -1,5 +1,6 @@
 package com.example.linkedin_clone.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,10 @@ import org.w3c.dom.Text
 class Profile : AppCompatActivity() {
     private lateinit var profileId: String
     private lateinit var firebaseUser: FirebaseUser
+    private lateinit var pname: String
+    private lateinit var cname: String
+
+    @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -35,11 +40,17 @@ class Profile : AppCompatActivity() {
         if (pref != null) {
             this.profileId = pref.getString("profileId", "none").toString()
         }
+        FirebaseDatabase.getInstance().getReference("Users").child(profileId).get().addOnSuccessListener {
+            this.pname = it.child("name").value.toString()
+        }
+        FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.uid).get().addOnSuccessListener {
+            this.cname = it.child("name").value.toString()
+        }
         if (profileId == firebaseUser.uid) {
             findViewById<TextView>(R.id.connectBtn).text = "Open to"
             findViewById<TextView>(R.id.messageBtn).text = "Add section"
         } else if (profileId != firebaseUser.uid) {
-            checkFollowAndFollowing()
+//            checkFollowAndFollowing()
             findViewById<TextView>(R.id.messageBtn).text = "Message"
         }
         findViewById<CardView>(R.id.Btn1).setOnClickListener {
@@ -49,14 +60,21 @@ class Profile : AppCompatActivity() {
                     firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(it1)
-                            .child("Following").child(profileId).setValue(true)
+                            .child("Following").child(profileId).setValue(pname)
                     }
 
                     firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(profileId)
-                            .child("Followers").child(it1.toString()).setValue(true)
+                            .child("Connections").child(it1.toString()).setValue(cname)
                     }
+
+                    firebaseUser.uid.let { it1 ->
+                        FirebaseDatabase.getInstance().reference
+                            .child("Follow").child(profileId)
+                            .child("Requests").child(it1.toString()).setValue(cname)
+                    }
+
                 }
 
                 getButtonText == "Connected" -> {
@@ -69,21 +87,21 @@ class Profile : AppCompatActivity() {
                     firebaseUser.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                             .child("Follow").child(profileId)
-                            .child("Followers").child(it1.toString()).removeValue()
+                            .child("Connections").child(it1.toString()).removeValue()
                     }
                 }
             }
         }
 
-        getFollowers()
-        getFollowings()
+//        getFollowers()
+//        getFollowings()
         userInfo()
     }
 
     private fun getFollowers() {
         val followersRef = FirebaseDatabase.getInstance().reference
             .child("Follow").child(profileId)
-            .child("Followers")
+            .child("Connections")
         followersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
