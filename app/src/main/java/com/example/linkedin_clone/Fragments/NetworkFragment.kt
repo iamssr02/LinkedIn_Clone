@@ -47,9 +47,8 @@ class NetworkFragment : Fragment() {
 
                 if (snapshot.exists()){
                     for(userSnapshot in snapshot.children) {
-                        val user = ConnectionRequestUser(
-                            userSnapshot.value.toString()
-                        )
+                        val user = ConnectionRequestUser(userSnapshot.key.toString(),
+                            userSnapshot.value.toString())
                         Log.d("TAG", "Value: $user")
                         userArrayList.add(user)
 

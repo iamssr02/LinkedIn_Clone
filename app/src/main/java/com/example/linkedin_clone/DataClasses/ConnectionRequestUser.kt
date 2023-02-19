@@ -1,13 +1,13 @@
 package com.example.linkedin_clone.DataClasses
 
 data class ConnectionRequestUser(
-
+    var id : String,
     var firstName : String? = null
 ){
-    constructor(): this("")
+    constructor(): this("", "")
 
     override fun toString(): String {
-        return "ConnectionRequestUser(firstName=$firstName)"
+        return "ConnectionRequestUser(id='$id', firstName=$firstName)"
     }
 
 }

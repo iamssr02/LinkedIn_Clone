@@ -5,17 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedin_clone.DataClasses.ConnectionRequestUser
 import com.example.linkedin_clone.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 
-class NetworkAdapter() : ListAdapter<ConnectionRequestUser, NetworkAdapter.ConnectionsViewHolder>(ConnectionDiffUtilCallback()){
-
+class NetworkAdapter() : ListAdapter<ConnectionRequestUser, NetworkAdapter.ConnectionsViewHolder>(
+    ConnectionDiffUtilCallback()
+) {
+    private lateinit var firebaseUser: FirebaseUser
     private lateinit var context: Context
+    private lateinit var pname: String
+    private lateinit var cname: String
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConnectionsViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.card_network_request, parent, false)
+        val view: View = LayoutInflater.from(parent.context)
+            .inflate(R.layout.card_network_request, parent, false)
         context = parent.context
         return ConnectionsViewHolder(view)
     }
@@ -23,18 +33,40 @@ class NetworkAdapter() : ListAdapter<ConnectionRequestUser, NetworkAdapter.Conne
     override fun onBindViewHolder(holder: ConnectionsViewHolder, position: Int) {
         val item = getItem(position)
         holder.bindView(item, context)
+
+        firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        FirebaseDatabase.getInstance().getReference("Users").child(item.id).get().addOnSuccessListener {
+            this.pname = it.child("name").value.toString()
+        }
+        FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.uid).get().addOnSuccessListener {
+            this.cname = it.child("name").value.toString()
+        }
+
+        holder.itemView.findViewById<CardView>(R.id.connect_ok).setOnClickListener {
+            Toast.makeText(context,"${item.id}", Toast.LENGTH_SHORT).show()
+            firebaseUser.uid.let { it1 ->
+                FirebaseDatabase.getInstance().reference
+                    .child("Follow").child(it1.toString())
+                    .child("Requests").child(item.id).removeValue()
+            }
+            firebaseUser.uid.let { it1 ->
+                FirebaseDatabase.getInstance().reference
+                    .child("Follow").child(item.id)
+                    .child("Connections").child(it1.toString()).setValue(cname)
+            }
+        }
     }
 
     class ConnectionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bindView(item: ConnectionRequestUser, context: Context) {
-            val user : TextView = itemView.findViewById(R.id.item_text)
+            val user: TextView = itemView.findViewById(R.id.item_text)
             user.text = item.firstName
         }
     }
 
 }
 
-class ConnectionDiffUtilCallback(): DiffUtil.ItemCallback<ConnectionRequestUser>(){
+class ConnectionDiffUtilCallback() : DiffUtil.ItemCallback<ConnectionRequestUser>() {
     override fun areItemsTheSame(
         oldItem: ConnectionRequestUser,
         newItem: ConnectionRequestUser
