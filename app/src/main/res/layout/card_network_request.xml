@@ -9,10 +9,12 @@
         android:id="@+id/item_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         app:cardBackgroundColor="#ffffff"
-        app:cardElevation="0dp">
+        app:cardElevation="2dp"
+        android:focusable="true">
 
         <RelativeLayout
             android:id="@+id/item_click_parent"
@@ -135,11 +137,9 @@
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/_3sdp"
                     android:clickable="true"
-                    android:elevation="0dp"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    app:cardCornerRadius="40dp"
-                    app:cardElevation="0dp">
+                    app:cardCornerRadius="40dp">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -155,7 +155,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:layout_centerVertical="true"
                                 android:padding="@dimen/_2sdp"
                                 android:src="@drawable/ic_baseline_done_24"
                                 app:tint="@color/main_color" />
@@ -177,8 +176,7 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="15dp"
                 app:cardBackgroundColor="#ececec"
-                app:cardCornerRadius="40dp"
-                app:cardElevation="0dp">
+                app:cardCornerRadius="40dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"

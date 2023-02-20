@@ -2,6 +2,7 @@ package com.example.linkedin_clone.Adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,6 @@ class Network2Adapter() : ListAdapter<ConnectionRequestUser, Network2Adapter.Con
     private lateinit var context: Context
     private lateinit var pname: String
     private lateinit var cname: String
-    private lateinit var profileId: String
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConnectionsViewHolder {
         val view: View = LayoutInflater.from(parent.context)
@@ -41,7 +41,6 @@ class Network2Adapter() : ListAdapter<ConnectionRequestUser, Network2Adapter.Con
     override fun onBindViewHolder(holder: ConnectionsViewHolder, position: Int) {
         val item = getItem(position)
         holder.bindView(item, context)
-        this.profileId = item.id
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
         holder.itemView.setOnClickListener {
             val pref = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
@@ -59,8 +58,7 @@ class Network2Adapter() : ListAdapter<ConnectionRequestUser, Network2Adapter.Con
         if (followingRef != null){
             followingRef.addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    //chechking whether we follow the user or not
-                    if(snapshot.child(profileId).exists()){
+                    if(snapshot.child(item.id).exists()){
                         holder.itemView.findViewById<TextView>(R.id.txt1)?.text = "Connected"
                     }
                     else{

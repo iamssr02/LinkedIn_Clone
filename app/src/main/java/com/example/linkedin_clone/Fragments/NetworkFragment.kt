@@ -15,6 +15,7 @@ import com.example.linkedin_clone.Adapter.Network2Adapter
 import com.example.linkedin_clone.Adapter.NetworkAdapter
 import com.example.linkedin_clone.DataClasses.ConnectionRequestUser
 import com.example.linkedin_clone.R
+import com.example.linkedin_clone.ui.invitationActivity
 import com.example.linkedin_clone.ui.manageNetwork
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -53,6 +54,14 @@ class NetworkFragment : Fragment() {
             val intent = Intent (activity, manageNetwork::class.java)
             activity?.startActivity(intent)
         }
+        view.findViewById<TextView>(R.id.invitation)?.setOnClickListener {
+            val intent = Intent (activity, invitationActivity::class.java)
+            activity?.startActivity(intent)
+        }
+        view.findViewById<LinearLayout>(R.id.showMore)?.setOnClickListener {
+            val intent = Intent (activity, invitationActivity::class.java)
+            activity?.startActivity(intent)
+        }
 
         return view
 
@@ -79,7 +88,6 @@ class NetworkFragment : Fragment() {
 
                     networkAdapter = NetworkAdapter()
                     userRecyclerview.adapter = networkAdapter
-                    Log.d("TAG", "onDataChange: $userArrayList")
                     networkAdapter.submitList(userArrayList)
 
                 }
@@ -96,7 +104,7 @@ class NetworkFragment : Fragment() {
     private fun getUserData2() {
         val currentUid = FirebaseAuth.getInstance().currentUser!!.uid
         dbref = FirebaseDatabase.getInstance().getReference("Follow").child(currentUid).child("Connections")
-
+        array.add(currentUid)
         dbref.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -105,10 +113,8 @@ class NetworkFragment : Fragment() {
 
                     for(userSnapshot in snapshot.children) {
 
-//                        array.add(userSnapshot.key.toString())
+                        array.add(userSnapshot.key.toString())
                     }
-                    array.add(currentUid)
-
                 }
             }
 
@@ -138,7 +144,6 @@ class NetworkFragment : Fragment() {
 
                     networkAdapter2 = Network2Adapter()
                     userRecyclerview2.adapter = networkAdapter2
-                    Log.d("TAG", "onDataChange: $userArrayList2")
                     networkAdapter2.submitList(userArrayList2)
 
                 }

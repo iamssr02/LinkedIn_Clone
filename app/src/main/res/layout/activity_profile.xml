@@ -295,7 +295,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="500+ connections"
+                        android:text="0 connections"
                         android:textColor="@color/main_color"
                         android:textSize="@dimen/_12ssp" />
 

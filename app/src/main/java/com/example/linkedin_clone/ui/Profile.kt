@@ -163,7 +163,7 @@ class Profile : AppCompatActivity() {
         if (followingRef != null){
             followingRef.addValueEventListener(object : ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    //chechking whether we follow the user or not
+
                     if(snapshot.child(profileId).exists()){
                         findViewById<TextView>(R.id.connectBtn)?.text = "Connected"
                     }
