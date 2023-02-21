@@ -28,13 +28,13 @@ class searchActivity : AppCompatActivity() {
         mUser = ArrayList()
         userAdapter = SearchAdapter(this, mUser as ArrayList<User>, true)
         recyclerView?.adapter = userAdapter
-        findViewById<EditText>(R.id.search).addTextChangedListener(object : TextWatcher {
+        findViewById<EditText>(R.id.search_layout).addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(findViewById<EditText>(R.id.search).text.toString()==""){
+                if(findViewById<EditText>(R.id.search_layout).text.toString()==""){
                 }
                 else{
                     recyclerView?.visibility = View.VISIBLE
@@ -73,7 +73,7 @@ class searchActivity : AppCompatActivity() {
         val userRef = FirebaseDatabase.getInstance().getReference().child("Users")
         userRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if(findViewById<EditText>(R.id.search)?.text.toString()!=""){
+                if(findViewById<EditText>(R.id.search_layout)?.text.toString()!=""){
                     mUser?.clear()
                     for(snapshot in dataSnapshot.children){
                         val user = snapshot.getValue(User::class.java)
