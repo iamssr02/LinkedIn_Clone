@@ -145,7 +145,7 @@
             android:paddingBottom="@dimen/_40sdp">
 
             <EditText
-                android:id="@+id/edit_text"
+                android:id="@+id/caption"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"

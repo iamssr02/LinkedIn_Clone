@@ -10,14 +10,24 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
+import com.google.firebase.storage.FirebaseStorage
 import com.yalantis.ucrop.UCrop
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.io.File
 import java.util.*
 
@@ -60,8 +70,67 @@ class AddPost : AppCompatActivity() {
                 requestPermission()
             }
         }
+        findViewById<TextView>(R.id.btn_post).setOnClickListener {
+            savePostDetailsToDatabase()
+        }
+    }
+
+    private fun savePostDetailsToDatabase() {
+        var imageURL: String? = null
+        val caption = findViewById<EditText>(R.id.caption).text.toString()
+        val uploadedBy = FirebaseAuth.getInstance().currentUser!!.uid
+        val databaseRef = FirebaseDatabase.getInstance()
+            .reference
+            .child("Post")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid)
+        val newPostID = databaseRef.push().key
+        CoroutineScope(IO).launch {
+            imageURL = getDownloadImageURL(finalUri, newPostID!!, uploadedBy)
+            val postMap: HashMap<String, Any?> = hashMapOf(
+                "id" to newPostID,
+                "caption" to caption,
+                "imageURL" to imageURL,
+                "uploadedBy" to uploadedBy,
+                "timeStamp" to ServerValue.TIMESTAMP,
+            )
+            Log.d("TAG", "savePostDetailsToDatabase: $postMap")
+            databaseRef.child(newPostID).setValue(postMap).addOnCompleteListener {task ->
+                if (task.isSuccessful){
+                    // handle successful after events
+                    finish()
+                }
+                else {
+                    Log.d("TAG", "savePostDetailsToDatabase: ${task.exception}")
+                }
+            }
+        }
+
 
     }
+
+    private suspend fun getDownloadImageURL(
+        imageUri: Uri?,
+        postID: String,
+        userID: String
+    ): String? {
+        var downloadURL: String? = null
+        if (imageUri != null){
+            val filePath = FirebaseStorage.getInstance().reference
+                .child("Posts")
+                .child("user_$userID")
+                .child("post_$postID")
+                .child("img_$postID.jpg")
+            filePath.putFile(imageUri).addOnProgressListener {
+
+            }.addOnPausedListener {
+                Log.d("tag", "Upload is paused ${it.error?.message}")
+            }.await()
+            downloadURL = filePath.downloadUrl.await().toString()
+        }
+        Log.d("TAG", "getDownloadImageURL: $downloadURL")
+        return downloadURL
+    }
+
     private fun requestPermission() {
         Log.d("tag", "requestPermission: ")
         requestPermissions(arrayOf(READ_EXTERNAL_STORAGE, CAMERA), 100)
