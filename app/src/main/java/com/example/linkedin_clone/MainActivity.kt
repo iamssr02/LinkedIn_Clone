@@ -3,6 +3,7 @@ package com.example.linkedin_clone
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         drawerLayout = findViewById(R.id.container)
         val navView1 : NavigationView = findViewById(R.id.nav_view_menu)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
