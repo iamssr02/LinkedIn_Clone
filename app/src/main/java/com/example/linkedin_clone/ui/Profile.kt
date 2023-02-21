@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -50,9 +52,14 @@ class Profile : AppCompatActivity() {
             findViewById<TextView>(R.id.connectBtn).text = "Open to"
             findViewById<TextView>(R.id.messageBtn).text = "Add section"
         } else if (profileId != firebaseUser.uid) {
-            checkFollowAndFollowing()
+            checkConnection()
             findViewById<TextView>(R.id.messageBtn).text = "Message"
         }
+
+
+            getConnections()
+            userInfo()
+
         findViewById<CardView>(R.id.Btn1).setOnClickListener {
             val getButtonText = findViewById<TextView>(R.id.connectBtn).text.toString()
             when {
@@ -92,12 +99,9 @@ class Profile : AppCompatActivity() {
                 }
             }
         }
-
-        getFollowers()
-        userInfo()
     }
 
-    private fun getFollowers() {
+    private fun getConnections() {
         val followersRef = FirebaseDatabase.getInstance().reference
             .child("Follow").child(profileId)
             .child("Connections")
@@ -117,19 +121,13 @@ class Profile : AppCompatActivity() {
 
     //Getting user info of a Profile Id
     private fun userInfo() {
-        val userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(profileId)
-        userRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    val user = snapshot.getValue<User>(User::class.java)
-                    findViewById<TextView>(R.id.txt_name)?.text = user!!.getName()
-                }
+            val database = FirebaseDatabase.getInstance().getReference("Users")
+            database.child(profileId).get().addOnSuccessListener {
+                val name = it.child("name").value.toString()
+                val headline = it.child("headline").value.toString()
+                findViewById<TextView>(R.id.txt_name).text = name
+                findViewById<TextView>(R.id.txt_headline).text = headline
             }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-        })
     }
 
     override fun onStop() {
@@ -155,7 +153,7 @@ class Profile : AppCompatActivity() {
         pref?.putString("profileId", firebaseUser.uid)
         pref?.apply()
     }
-    private fun checkFollowAndFollowing() {
+    private fun checkConnection() {
         val followingRef = firebaseUser?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())

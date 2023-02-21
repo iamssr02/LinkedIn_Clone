@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".detailsActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:src="@drawable/login_logo"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/main_color"
+        tools:ignore="ContentDescription" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/saveBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo">
+
+        <LinearLayout
+            android:id="@+id/detailsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_layout"
+            app:layout_constraintVertical_bias="0.19999999">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="First name*"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
+            <EditText
+                android:id="@+id/firstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:inputType="text"
+                android:maxLength="15"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Last name*"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
+            <EditText
+                android:id="@+id/lastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:inputType="text"
+                android:singleLine="true"
+                android:text=""
+                android:maxLength="15"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Additional name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
+            <EditText
+                android:id="@+id/additionalName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text=""
+                android:maxLength="25"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Pronouns*"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
+
+            <EditText
+                android:id="@+id/pronouns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:inputType="text"
+                android:maxLength="7"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Headline"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
+
+            <EditText
+                android:id="@+id/headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:inputType="text"
+                android:maxLength="225"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Industry*"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
+
+            <EditText
+                android:id="@+id/industry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:inputType="text"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/black"
+                android:maxLength="50"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Education*"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp" />
+
+
+            <EditText
+                android:id="@+id/education"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:fontFamily="@font/roboto_medium"
+                android:inputType="text"
+                android:maxLength="50"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveBtn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:backgroundTint="@color/main_color"
+        android:elevation="@dimen/_10sdp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Save Info"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_15ssp"
+        android:textStyle="bold"
+        app:cornerRadius="@dimen/_15sdp"
+        android:layout_margin="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

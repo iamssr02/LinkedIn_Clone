@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.example.linkedin_clone.DataClasses.User
 import com.example.linkedin_clone.MainActivity
 import com.example.linkedin_clone.R
+import com.example.linkedin_clone.detailsActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -17,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
@@ -74,20 +76,21 @@ class JoinNow : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(account.idToken , null)
         auth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
-                val currentUser = FirebaseAuth.getInstance().currentUser
-                val currentUserId = currentUser!!.uid
+                val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
                 database = FirebaseDatabase.getInstance().getReference("Users")
-                val User = User("${account.email}", "${account.displayName}","${currentUserId}")
+                database.child(currentUserId).get().addOnSuccessListener {it1:DataSnapshot ->
 
-                //Realtime database upload
-                database.child(currentUserId).setValue(User)
-
-                //Firestore database upload
-                val db = Firebase.firestore.collection("Users").document(currentUserId)
-                db.set(User)
-
-                val intent : Intent = Intent(this , MainActivity::class.java)
-                startActivity(intent)
+                    if (!(it1.exists())){
+                        val intent = Intent(this , detailsActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        intent.putExtra("Email", "${account.email}")
+                        intent.putExtra("Name", "${account.displayName}")
+                        startActivity(intent)
+                    }
+                    else{
+                        startActivity(Intent(this, MainActivity::class.java))
+                    }
+                }
             }else{
                 Toast.makeText(this, it.exception.toString() , Toast.LENGTH_SHORT).show()
 
