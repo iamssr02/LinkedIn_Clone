@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.Fragments.AddPost">
+    tools:context=".AddPost">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -113,6 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_centerVertical="true"
+                android:gravity="center_vertical"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_toEndOf="@+id/button_head_card_parent"
                 android:orientation="vertical">
@@ -164,7 +165,7 @@
                 android:id="@+id/ll"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_250sdp"
-                android:layout_below="@+id/edit_text"
+                android:layout_below="@+id/caption"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="@dimen/_10sdp"
                 app:cardCornerRadius="@dimen/_5sdp"

@@ -62,7 +62,9 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        findViewById<TextView>(R.id.item_search_input).setOnClickListener {
+            startActivity(Intent(this, searchActivity::class.java))
+        }
         drawerLayout = findViewById(R.id.container)
         val navView1 : NavigationView = findViewById(R.id.nav_view_menu)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
