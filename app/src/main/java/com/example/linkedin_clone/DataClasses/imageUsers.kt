@@ -1,13 +1,15 @@
 package com.example.linkedin_clone.DataClasses
 
-data class imageUsers(var caption : String,
-                      var imageURL : String? = null
-){
-    constructor(): this("", "")
+import java.util.*
 
-    override fun toString(): String {
-        return "imageUsers(caption='$caption', imageURL=$imageURL)"
-    }
-
-
+data class imageUsers(
+    var id: String,
+    var caption: String,
+    var imageURL: String,
+    var uploadedBy: String,
+    var name: String,
+    var headline: String,
+    var timeStamp: String
+) {
+    constructor() : this("", "", "", "","","", "")
 }

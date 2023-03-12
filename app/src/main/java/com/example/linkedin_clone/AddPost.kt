@@ -78,6 +78,8 @@ class AddPost : AppCompatActivity() {
     private fun savePostDetailsToDatabase() {
         var imageURL: String? = null
         val caption = findViewById<EditText>(R.id.caption).text.toString()
+        var name: String = ""
+        var headline: String = ""
         val uploadedBy = FirebaseAuth.getInstance().currentUser!!.uid
         val databaseRef = FirebaseDatabase.getInstance()
             .reference
@@ -94,7 +96,31 @@ class AddPost : AppCompatActivity() {
                 "timeStamp" to ServerValue.TIMESTAMP,
             )
             Log.d("TAG", "savePostDetailsToDatabase: $postMap")
-            databaseRef.child(newPostID).setValue(postMap).addOnCompleteListener {task ->
+            databaseRef.child(newPostID).setValue(postMap)
+        }
+
+        FirebaseDatabase.getInstance().getReference("Users")
+        .child(uploadedBy).get().addOnSuccessListener {
+            name = it.child("name").value.toString()
+            headline = it.child("headline").value.toString()
+        }
+        val databaseRef1 = FirebaseDatabase.getInstance()
+            .reference
+            .child("Images")
+
+        CoroutineScope(IO).launch {
+            imageURL = getDownloadImageURL(finalUri, newPostID!!, uploadedBy)
+            val postMap: HashMap<String, Any?> = hashMapOf(
+                "name" to name,
+                "headline" to headline,
+                "id" to newPostID,
+                "caption" to caption,
+                "imageURL" to imageURL,
+                "uploadedBy" to uploadedBy,
+                "timeStamp" to ServerValue.TIMESTAMP,
+            )
+            Log.d("TAG", "savePostDetailsToDatabase: $postMap")
+            databaseRef1.child(newPostID).setValue(postMap).addOnCompleteListener {task ->
                 if (task.isSuccessful){
                     // handle successful after events
                     finish()
@@ -104,7 +130,6 @@ class AddPost : AppCompatActivity() {
                 }
             }
         }
-
 
     }
 

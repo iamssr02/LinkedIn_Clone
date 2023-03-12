@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,8 +24,8 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_gravity="center"
                 android:id="@+id/profileImage"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:src="@drawable/user"
                 app:civ_border_color="@color/white"
                 app:civ_border_width="1dp" />
@@ -34,7 +33,7 @@
             <LinearLayout
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
                 android:orientation="vertical">
 
@@ -44,26 +43,29 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:text="USER" />
+                    android:textSize="@dimen/_12ssp"
+                    android:text=""
+                    android:maxLines="1"/>
 
                 <TextView
                     android:id="@+id/user_headline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
-                    android:text="Student"
+                    android:text=""
                     android:textColor="@color/gray"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/_10ssp"
+                    android:maxLines="1"/>
 
                 <TextView
                     android:id="@+id/time_stamp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
-                    android:text="12m"
+                    android:text=""
                     android:textColor="@color/gray"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/_10ssp"
+                    android:maxLines="1"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -73,7 +75,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="3"
-            android:text="" />
+            android:text=""
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/black"/>
 
         <LinearLayout
             android:layout_width="match_parent"

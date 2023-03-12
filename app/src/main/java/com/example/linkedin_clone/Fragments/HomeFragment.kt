@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedin_clone.Adapter.ImageAdapter
-import com.example.linkedin_clone.DataClasses.PostClassUser
 import com.example.linkedin_clone.DataClasses.imageUsers
 import com.example.linkedin_clone.R
 import com.google.firebase.auth.FirebaseAuth
@@ -51,7 +50,15 @@ class HomeFragment : Fragment() {
 
                 if (snapshot.exists()){
                     for(userSnapshot in snapshot.children) {
-                        val user = imageUsers(userSnapshot.child("caption").value.toString(),userSnapshot.child("imageURL").value.toString())
+                        val user = imageUsers(
+                            userSnapshot.child("id").value.toString(),
+                            userSnapshot.child("caption").value.toString(),
+                            userSnapshot.child("imageURL").value.toString(),
+                            userSnapshot.child("uploadedBy").value.toString(),
+                            userSnapshot.child("name").value.toString(),
+                            userSnapshot.child("headline").value.toString(),
+                            userSnapshot.child("timeStamp").value.toString(),
+                        )
                         userArrayList.add(user)
 
                     }

@@ -34,9 +34,15 @@ class ImageAdapter(
     class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = itemView.findViewById(R.id.post_img)
         val caption: TextView = itemView.findViewById(R.id.caption)
+        val username: TextView = itemView.findViewById(R.id.username)
+        val time: TextView = itemView.findViewById(R.id.time_stamp)
+        val headLine: TextView = itemView.findViewById(R.id.user_headline)
         fun bindView(item: imageUsers, context: Context) {
             Glide.with(context).load(item.imageURL).into(image)
             caption.text = item.caption
+            username.text = item.name
+            time.text = item.timeStamp
+            headLine.text = item.headline
         }
     }
 }
