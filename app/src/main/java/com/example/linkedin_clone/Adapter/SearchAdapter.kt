@@ -39,8 +39,6 @@ class SearchAdapter (private var mContext: Context,
         val user = mUser[position]
         holder.name.text = user.getName()
 
-//        Picasso.get().load(user.getImage()).placeholder(R.drawable.user).into(holder.profileImage)
-
         holder.itemView.setOnClickListener {
             val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
             pref.putString("profileId",user.getUID())

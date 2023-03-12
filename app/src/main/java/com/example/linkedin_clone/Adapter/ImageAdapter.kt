@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.linkedin_clone.DataClasses.ConnectionRequestUser
 import com.example.linkedin_clone.DataClasses.imageUsers
 import com.example.linkedin_clone.R
 
@@ -26,10 +27,16 @@ class ImageAdapter(
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        Glide.with(context).load(imageList[position].imageURL).into(holder.image)
+        val item = imageList[position]
+        holder.bindView(item, context)
     }
 
     class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = itemView.findViewById(R.id.post_img)
+        val caption: TextView = itemView.findViewById(R.id.caption)
+        fun bindView(item: imageUsers, context: Context) {
+            Glide.with(context).load(item.imageURL).into(image)
+            caption.text = item.caption
+        }
     }
 }
