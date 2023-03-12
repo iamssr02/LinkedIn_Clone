@@ -10,8 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.linkedin_clone.Adapter.ImageAdapter
 import com.example.linkedin_clone.DataClasses.imageUsers
 import com.example.linkedin_clone.R
@@ -25,7 +28,6 @@ class HomeFragment : Fragment() {
     private lateinit var dbref : DatabaseReference
     private lateinit var userRecyclerview : RecyclerView
     private lateinit var imageAdapter: ImageAdapter
-    private lateinit var userArrayList : ArrayList<imageUsers>
     private lateinit var con: Context
 
     override fun onCreateView(
@@ -37,12 +39,17 @@ class HomeFragment : Fragment() {
         userRecyclerview = view.findViewById(R.id.posts)
         userRecyclerview.layoutManager = LinearLayoutManager(context)
         userRecyclerview.setHasFixedSize(true)
-        userArrayList = arrayListOf<imageUsers>()
         getUserData()
+
+        view.findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh).setOnRefreshListener {
+            getUserData()
+            view.findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh).isRefreshing = false
+        }
         return view
         }
     private fun getUserData() {
         val currentUid = FirebaseAuth.getInstance().currentUser!!.uid
+        var userArrayList : ArrayList<imageUsers> = arrayListOf<imageUsers>()
         dbref = FirebaseDatabase.getInstance().getReference("Images")
         dbref.addValueEventListener(object : ValueEventListener {
 

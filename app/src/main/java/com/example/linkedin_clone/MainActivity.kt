@@ -1,5 +1,6 @@
 package com.example.linkedin_clone
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -14,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.linkedin_clone.Fragments.HomeFragment
 import com.example.linkedin_clone.Fragments.JobsFragment
 import com.example.linkedin_clone.Fragments.NetworkFragment
@@ -66,10 +68,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, searchActivity::class.java))
         }
         drawerLayout = findViewById(R.id.container)
-        val navView1 : NavigationView = findViewById(R.id.nav_view_menu)
+        val navView1: NavigationView = findViewById(R.id.nav_view_menu)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
+//        findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh).setOnRefreshListener {
+//            refreshApp(applicationContext)
+//        }
 
         moveToFrag(HomeFragment())
         toggle =
@@ -82,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         navView1.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_account -> {
-                    startActivity(Intent(this,Profile::class.java))
+                    startActivity(Intent(this, Profile::class.java))
                 }
                 R.id.nav_logout -> {
                     Toast.makeText(this@MainActivity, "Second Item Clicked", Toast.LENGTH_SHORT)
@@ -94,18 +99,33 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    if (toggle.onOptionsItemSelected(item)) {
-        true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            true
+        }
+        return super.onOptionsItemSelected(item)
     }
-    return super.onOptionsItemSelected(item)
-}
 
 
+    private fun moveToFrag(fragment: Fragment) {
+        val fragmentTrans = supportFragmentManager.beginTransaction()
+        fragmentTrans.replace(R.id.Fragment_container, fragment)
+        fragmentTrans.commit()
+    }
 
-private fun moveToFrag(fragment: Fragment) {
-    val fragmentTrans = supportFragmentManager.beginTransaction()
-    fragmentTrans.replace(R.id.Fragment_container, fragment)
-    fragmentTrans.commit()
-}
+    private fun refreshApp(context: Context?) {
+        context.let {
+            val fragmentManager = (context as AppCompatActivity).supportFragmentManager
+            fragmentManager.let {
+                val currentFragment = fragmentManager.findFragmentById(R.id.Fragment_container)
+                currentFragment?.let {
+                    val ft = fragmentManager.beginTransaction()
+                    ft.detach(it)
+                    ft.attach(it)
+                    ft.commit()
+                    findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh)?.isRefreshing = false
+                }
+            }
+        }
+    }
 }

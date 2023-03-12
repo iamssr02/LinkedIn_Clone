@@ -74,6 +74,7 @@
             android:id="@+id/caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
             android:maxLines="3"
             android:text=""
             android:textSize="@dimen/_12ssp"

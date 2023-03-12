@@ -10,10 +10,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -33,6 +31,7 @@ import java.util.*
 
 class AddPost : AppCompatActivity() {
 
+    private lateinit var mProgressBar : ProgressBar
     private var finalUri: Uri? = null
     private val REQUEST_GALLERY = 1001
     private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
@@ -61,6 +60,8 @@ class AddPost : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
+        mProgressBar = findViewById(R.id.phoneProgressBar)
+        mProgressBar.visibility = View.INVISIBLE
         findViewById<ImageView>(R.id.img1).setOnClickListener{
             if (checkSelfPermission()){
                 pickImageFromGallery()
@@ -71,7 +72,13 @@ class AddPost : AppCompatActivity() {
             }
         }
         findViewById<TextView>(R.id.btn_post).setOnClickListener {
-            savePostDetailsToDatabase()
+            if(findViewById<EditText>(R.id.caption).text.isNotEmpty()) {
+                mProgressBar.visibility = View.VISIBLE
+                savePostDetailsToDatabase()
+            }
+            else{
+                Toast.makeText(this,"Enter a caption.",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -123,6 +130,7 @@ class AddPost : AppCompatActivity() {
             databaseRef1.child(newPostID).setValue(postMap).addOnCompleteListener {task ->
                 if (task.isSuccessful){
                     // handle successful after events
+                    mProgressBar.visibility = View.INVISIBLE
                     finish()
                 }
                 else {
