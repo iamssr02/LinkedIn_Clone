@@ -22,18 +22,18 @@
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_gravity="center"
                 android:id="@+id/profileImage"
                 android:layout_width="@dimen/_35sdp"
                 android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center"
                 android:src="@drawable/user"
                 app:civ_border_color="@color/white"
                 app:civ_border_width="1dp" />
 
             <LinearLayout
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="@dimen/_5sdp"
                 android:orientation="vertical">
 
@@ -42,30 +42,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
+                    android:maxLines="1"
                     android:text=""
-                    android:maxLines="1"/>
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
 
                 <TextView
                     android:id="@+id/user_headline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
+                    android:maxLines="1"
                     android:text=""
                     android:textColor="@color/gray"
-                    android:textSize="@dimen/_10ssp"
-                    android:maxLines="1"/>
+                    android:textSize="@dimen/_10ssp" />
 
                 <TextView
                     android:id="@+id/time_stamp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_light"
+                    android:maxLines="1"
                     android:text=""
                     android:textColor="@color/gray"
-                    android:textSize="@dimen/_10ssp"
-                    android:maxLines="1"/>
+                    android:textSize="@dimen/_10ssp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -77,30 +77,33 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:maxLines="3"
             android:text=""
-            android:textSize="@dimen/_12ssp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:orientation="vertical">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#B2C5C1C1" />
+
             <ImageView
                 android:id="@+id/post_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="@dimen/_250sdp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:maxHeight="@dimen/_250sdp" />
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#B2C5C1C1"
-            android:layout_marginBottom="@dimen/_5sdp"/>
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="#B2C5C1C1" />
 
         <RelativeLayout
             android:id="@+id/ll2"
@@ -115,8 +118,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:src="@drawable/ic_link_like"
-                android:visibility="gone" />
+                android:src="@drawable/ic_link_like" />
 
             <TextView
                 android:id="@+id/likesTxt"
@@ -126,8 +128,7 @@
                 android:layout_marginStart="@dimen/_3sdp"
                 android:layout_toEndOf="@+id/img1"
                 android:text=""
-                android:textSize="@dimen/_10ssp"
-                android:visibility="gone" />
+                android:textSize="@dimen/_10ssp" />
 
             <TextView
                 android:id="@+id/commentTxt"
@@ -136,9 +137,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:text="16 comments"
-                android:textSize="@dimen/_10ssp"
-                android:visibility="gone" />
+                android:text=""
+                android:textSize="@dimen/_10ssp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -146,107 +146,192 @@
             android:layout_height="@dimen/_40sdp"
             android:weightSum="4">
 
-            <LinearLayout
-                android:id="@+id/btn_like"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="?selectableItemBackground"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/ic_like"
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
-                    android:src="@drawable/ic_like" />
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/white"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/like_clr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Like"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_9ssp" />
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/btn_like"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="?selectableItemBackground"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+                    <ImageView
+                        android:id="@+id/ic_like"
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:src="@drawable/ic_like" />
+
+                    <TextView
+                        android:id="@+id/like_clr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Like"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="?selectableItemBackground"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_weight="1">
 
-                <ImageView
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
-                    android:src="@drawable/ic_comment"
-                    app:tint="@color/black" />
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/white"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Comment"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_9ssp" />
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?selectableItemBackground"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:src="@drawable/ic_comment"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Comment"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="?selectableItemBackground"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_weight="1">
 
-                <ImageView
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
-                    android:src="@drawable/ic_share"
-                    app:tint="@color/black" />
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/white"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Share"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_9ssp" />
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackground"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:src="@drawable/ic_share"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Share"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="?selectableItemBackground"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_weight="1">
 
-                <ImageView
-                    android:layout_width="@dimen/_12sdp"
-                    android:layout_height="@dimen/_12sdp"
-                    android:src="@drawable/ic_send"
-                    app:tint="@color/black" />
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="@color/white"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Send"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_9ssp" />
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="?selectableItemBackground"
+                    android:elevation="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:src="@drawable/ic_send"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Send"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <View
