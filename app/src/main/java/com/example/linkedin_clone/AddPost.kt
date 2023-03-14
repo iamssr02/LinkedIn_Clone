@@ -17,6 +17,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.linkedin_clone.Fragments.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
@@ -118,6 +119,7 @@ class AddPost : AppCompatActivity() {
         CoroutineScope(IO).launch {
             imageURL = getDownloadImageURL(finalUri, newPostID!!, uploadedBy)
             val postMap: HashMap<String, Any?> = hashMapOf(
+//                "likes" to 0,
                 "name" to name,
                 "headline" to headline,
                 "id" to newPostID,
@@ -131,7 +133,9 @@ class AddPost : AppCompatActivity() {
                 if (task.isSuccessful){
                     // handle successful after events
                     mProgressBar.visibility = View.INVISIBLE
-                    finish()
+                    val intent = Intent(this@AddPost, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    startActivity(intent)
                 }
                 else {
                     Log.d("TAG", "savePostDetailsToDatabase: ${task.exception}")

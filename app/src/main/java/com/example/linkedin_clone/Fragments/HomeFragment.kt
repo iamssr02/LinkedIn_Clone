@@ -28,17 +28,19 @@ class HomeFragment : Fragment() {
     private lateinit var dbref : DatabaseReference
     private lateinit var userRecyclerview : RecyclerView
     private lateinit var imageAdapter: ImageAdapter
-    private lateinit var con: Context
+    private lateinit var userArrayList : ArrayList<imageUsers>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
-        con = requireContext()
         userRecyclerview = view.findViewById(R.id.posts)
+        userArrayList = arrayListOf<imageUsers>()
+        imageAdapter = ImageAdapter()
         userRecyclerview.layoutManager = LinearLayoutManager(context)
         userRecyclerview.setHasFixedSize(true)
+        userRecyclerview.adapter = imageAdapter
         getUserData()
 
         view.findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh).setOnRefreshListener {
@@ -49,7 +51,7 @@ class HomeFragment : Fragment() {
         }
     private fun getUserData() {
         val currentUid = FirebaseAuth.getInstance().currentUser!!.uid
-        var userArrayList : ArrayList<imageUsers> = arrayListOf<imageUsers>()
+//        var userArrayList : ArrayList<imageUsers> = arrayListOf<imageUsers>()
         dbref = FirebaseDatabase.getInstance().getReference("Images")
         dbref.addValueEventListener(object : ValueEventListener {
 
@@ -58,6 +60,7 @@ class HomeFragment : Fragment() {
                 if (snapshot.exists()){
                     for(userSnapshot in snapshot.children) {
                         val user = imageUsers(
+//                            userSnapshot.child("likes").childrenCount.toInt(),
                             userSnapshot.child("id").value.toString(),
                             userSnapshot.child("caption").value.toString(),
                             userSnapshot.child("imageURL").value.toString(),
@@ -70,8 +73,7 @@ class HomeFragment : Fragment() {
 
                     }
                     Log.d("TAG", "image: $userArrayList")
-                    imageAdapter = ImageAdapter(userArrayList,con)
-                    userRecyclerview.adapter = imageAdapter
+                    imageAdapter.submitList(userArrayList)
 
                 }
 

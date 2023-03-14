@@ -3,6 +3,7 @@ package com.example.linkedin_clone.DataClasses
 import java.util.*
 
 data class imageUsers(
+//    var likes : Int = 0,
     var id: String,
     var caption: String,
     var imageURL: String,
