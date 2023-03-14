@@ -63,7 +63,7 @@ class detailsActivity : AppCompatActivity() {
                 Toast.makeText(this, "Enter your industry", Toast.LENGTH_SHORT).show()
             } else {
                 updateDatabase()
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, profilePhotoActivity::class.java))
             }
         }
     }
@@ -79,7 +79,9 @@ class detailsActivity : AppCompatActivity() {
             "$headline",
             "$industry",
             "$education",
-            "${currentUserId}"
+            "${currentUserId}",
+            "",
+            ""
         )
 
         //Realtime database upload

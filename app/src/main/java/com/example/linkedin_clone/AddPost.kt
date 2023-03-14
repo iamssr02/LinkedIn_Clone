@@ -35,7 +35,8 @@ class AddPost : AppCompatActivity() {
     private lateinit var mProgressBar : ProgressBar
     private var finalUri: Uri? = null
     private val REQUEST_GALLERY = 1001
-    private val getContent = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+    private val getContent = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()){ result ->
         val requestCode = result.data?.extras?.getInt(REQUEST_GALLERY.toString())
         Log.d("tag", "RequestCode : $requestCode")
         if (result.resultCode == Activity.RESULT_OK) {

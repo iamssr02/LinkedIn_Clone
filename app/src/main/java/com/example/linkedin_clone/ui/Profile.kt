@@ -8,10 +8,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.example.linkedin_clone.DataClasses.User
 import com.example.linkedin_clone.R
+import com.example.linkedin_clone.coverPhotoActivity
+import com.example.linkedin_clone.profilePhotoActivity
 import com.example.linkedin_clone.searchActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -59,6 +62,14 @@ class Profile : AppCompatActivity() {
 
             getConnections()
             userInfo()
+
+        findViewById<ImageView>(R.id.profileImg).setOnClickListener{
+            startActivity(Intent(this, profilePhotoActivity::class.java))
+        }
+
+        findViewById<ImageView>(R.id.background_img).setOnClickListener{
+            startActivity(Intent(this, coverPhotoActivity::class.java))
+        }
 
         findViewById<CardView>(R.id.Btn1).setOnClickListener {
             val getButtonText = findViewById<TextView>(R.id.connectBtn).text.toString()

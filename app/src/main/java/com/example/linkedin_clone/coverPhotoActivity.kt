@@ -26,13 +26,12 @@ import kotlinx.coroutines.tasks.await
 import java.io.File
 import java.util.*
 
-class profilePhotoActivity : AppCompatActivity() {
-    private lateinit var mProgressBar: ProgressBar
+class coverPhotoActivity : AppCompatActivity() {
+    private lateinit var mProgressBar : ProgressBar
     private var finalUri: Uri? = null
     private val REQUEST_GALLERY = 1001
     private val getContent = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
+        ActivityResultContracts.StartActivityForResult()){ result ->
         val requestCode = result.data?.extras?.getInt(REQUEST_GALLERY.toString())
         Log.d("tag", "RequestCode : $requestCode")
         if (result.resultCode == Activity.RESULT_OK) {
@@ -42,49 +41,43 @@ class profilePhotoActivity : AppCompatActivity() {
             }
         }
     }
-    private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val intent: Intent? = result.data
-                Log.d("tag", "Intent: $intent")
-                if (intent != null) {
-                    finalUri = UCrop.getOutput(intent)!!
-                    Log.d("tag", "Intent finalUri : $finalUri")
-                    Glide.with(applicationContext)
-                        .load(finalUri)
-                        .into(findViewById(R.id.profile_img))
-                }
+    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val intent: Intent? = result.data
+            Log.d("tag", "Intent: $intent")
+            if (intent != null) {
+                finalUri = UCrop.getOutput(intent)!!
+                Log.d("tag", "Intent finalUri : $finalUri")
+                Glide.with(applicationContext)
+                    .load(finalUri)
+                    .into(findViewById(R.id.cover_img))
             }
         }
-
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile_photo)
+        setContentView(R.layout.activity_cover_photo)
         mProgressBar = findViewById(R.id.phoneProgressBar)
         mProgressBar.visibility = View.INVISIBLE
-        findViewById<ImageView>(R.id.profile_img).setOnClickListener {
-            if (checkSelfPermission()) {
+        findViewById<ImageView>(R.id.cover_img).setOnClickListener{
+            if (checkSelfPermission()){
                 pickImageFromGallery()
-            } else {
-                Toast.makeText(applicationContext, "Allow all permissions", Toast.LENGTH_SHORT)
-                    .show()
+            }
+            else {
+                Toast.makeText(applicationContext, "Allow all permissions", Toast.LENGTH_SHORT).show()
                 requestPermission()
             }
         }
-
         findViewById<TextView>(R.id.btn_post).setOnClickListener {
                 mProgressBar.visibility = View.VISIBLE
                 savePostDetailsToDatabase()
-
         }
-
         findViewById<TextView>(R.id.btn_skip).setOnClickListener {
-            val intent = Intent(this, coverPhotoActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
         }
     }
-
     private fun savePostDetailsToDatabase() {
         var imageURL: String? = null
         val uploadedBy = FirebaseAuth.getInstance().currentUser!!.uid
@@ -94,11 +87,11 @@ class profilePhotoActivity : AppCompatActivity() {
         val newPostID = databaseRef.push().key
         CoroutineScope(Dispatchers.IO).launch {
             imageURL = getDownloadImageURL(finalUri, newPostID!!, uploadedBy)
-            databaseRef.child("profileImageURL").setValue(imageURL).addOnCompleteListener { task ->
+            databaseRef.child("coverImageURL").setValue(imageURL).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // handle successful after events
                     mProgressBar.visibility = View.INVISIBLE
-                    val intent = Intent(this@profilePhotoActivity, coverPhotoActivity::class.java)
+                    val intent = Intent(this@coverPhotoActivity, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
                 } else {
@@ -108,7 +101,6 @@ class profilePhotoActivity : AppCompatActivity() {
         }
     }
 
-
     private suspend fun getDownloadImageURL(
         imageUri: Uri?,
         postID: String,
@@ -117,7 +109,7 @@ class profilePhotoActivity : AppCompatActivity() {
         var downloadURL: String? = null
         if (imageUri != null) {
             val filePath = FirebaseStorage.getInstance().reference
-                .child("ProfileImages")
+                .child("CoverImages")
                 .child("user_$userID")
                 .child("img_$postID.jpg")
             filePath.putFile(imageUri).addOnProgressListener {
@@ -133,14 +125,11 @@ class profilePhotoActivity : AppCompatActivity() {
 
     private fun requestPermission() {
         Log.d("tag", "requestPermission: ")
-        requestPermissions(
-            arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            ), 100
-        )
+        requestPermissions(arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+        ), 100)
     }
-
     private fun checkSelfPermission(): Boolean {
         Log.d("tag", "onCreateView: checkSelfPermission ")
         return ContextCompat.checkSelfPermission(

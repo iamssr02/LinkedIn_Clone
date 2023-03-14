@@ -8,6 +8,8 @@ class User {
     private var industry: String = ""
     private var education: String = ""
     private var uid: String = ""
+    private var profileImageURL: String = ""
+    private var coverImageURL: String = ""
 
     constructor()
     constructor(
@@ -17,7 +19,9 @@ class User {
         headline: String,
         industry: String,
         education: String,
-        uid: String
+        uid: String,
+        profileImageURL: String,
+        coverImageURL: String,
     ) {
         this.name = name
         this.email = email
@@ -26,6 +30,8 @@ class User {
         this.industry = industry
         this.education = education
         this.uid = uid
+        this.profileImageURL = profileImageURL
+        this.coverImageURL = coverImageURL
     }
 
 
@@ -72,6 +78,18 @@ class User {
         return education
     }
     fun setEducation(education: String) {
+        this.education = education
+    }
+    fun getProfileImageURL() : String {
+        return education
+    }
+    fun setProfileImageURL(education: String) {
+        this.education = education
+    }
+    fun getCoverImageURL() : String {
+        return education
+    }
+    fun setCoverImageURL(education: String) {
         this.education = education
     }
 }
