@@ -59,6 +59,11 @@ class coverPhotoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cover_photo)
         mProgressBar = findViewById(R.id.phoneProgressBar)
         mProgressBar.visibility = View.INVISIBLE
+        FirebaseDatabase.getInstance().getReference("Users").
+        child(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnSuccessListener {
+            val imageURL = it.child("coverImageURL").value.toString()
+            Glide.with(applicationContext).load(imageURL).into(findViewById(R.id.cover_img))
+        }
         findViewById<ImageView>(R.id.cover_img).setOnClickListener{
             if (checkSelfPermission()){
                 pickImageFromGallery()

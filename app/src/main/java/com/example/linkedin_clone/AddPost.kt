@@ -65,7 +65,29 @@ class AddPost : AppCompatActivity() {
         setContentView(R.layout.activity_add_post)
         mProgressBar = findViewById(R.id.phoneProgressBar)
         mProgressBar.visibility = View.INVISIBLE
+
+
+        FirebaseDatabase.getInstance().getReference("Users").
+        child(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnSuccessListener {
+            val imageURL = it.child("profileImageURL").value.toString()
+            val name = it.child("name").value.toString()
+            Glide.with(applicationContext).load(imageURL).into(findViewById(R.id.user_img))
+            findViewById<TextView>(R.id.user_name).text = name
+        }
+
+        //Not yet implemented
         findViewById<ImageView>(R.id.img1).setOnClickListener{
+            Toast.makeText(this,"It is not yet implemented. Use gallery button.",Toast.LENGTH_SHORT).show()
+        }
+        findViewById<ImageView>(R.id.img2).setOnClickListener{
+            Toast.makeText(this,"It is not yet implemented. Use gallery button.",Toast.LENGTH_SHORT).show()
+        }
+        findViewById<ImageView>(R.id.img4).setOnClickListener{
+            Toast.makeText(this,"It is not yet implemented. Use gallery button.",Toast.LENGTH_SHORT).show()
+        }
+
+
+        findViewById<ImageView>(R.id.img3).setOnClickListener{
             if (checkSelfPermission()){
                 pickImageFromGallery()
             }

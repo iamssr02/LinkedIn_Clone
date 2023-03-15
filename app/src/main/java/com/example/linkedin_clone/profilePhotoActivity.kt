@@ -62,6 +62,11 @@ class profilePhotoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile_photo)
         mProgressBar = findViewById(R.id.phoneProgressBar)
         mProgressBar.visibility = View.INVISIBLE
+        FirebaseDatabase.getInstance().getReference("Users").
+        child(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnSuccessListener {
+            val imageURL = it.child("profileImageURL").value.toString()
+            Glide.with(applicationContext).load(imageURL).into(findViewById(R.id.profile_img))
+        }
         findViewById<ImageView>(R.id.profile_img).setOnClickListener {
             if (checkSelfPermission()) {
                 pickImageFromGallery()
