@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.linkedin_clone.DataClasses.ConnectionRequestUser
 import com.example.linkedin_clone.R
 import com.example.linkedin_clone.ui.Profile
@@ -75,10 +77,15 @@ class Network2Adapter() : ListAdapter<ConnectionRequestUser, Network2Adapter.Con
 
 
     class ConnectionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val user: TextView = itemView.findViewById(R.id.txt_name)
+        val headline: TextView = itemView.findViewById(R.id.text_headline)
+        val profileImage: ImageView = itemView.findViewById(R.id.profileImg)
+        val coverImage: ImageView = itemView.findViewById(R.id.coverImg)
         fun bindView(item: ConnectionRequestUser, context: Context) {
-            val user: TextView = itemView.findViewById(R.id.txt_name)
             user.text = item.firstName
-
+            headline.text = item.headline
+            Glide.with(context).load(item.coverImage).into(coverImage)
+            Glide.with(context).load(item.profileImage).into(profileImage)
         }
     }
 
@@ -90,7 +97,7 @@ class ConnectionDiffUtilCallback2() : DiffUtil.ItemCallback<ConnectionRequestUse
         oldItem: ConnectionRequestUser,
         newItem: ConnectionRequestUser
     ): Boolean {
-        return oldItem.firstName == newItem.firstName
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
