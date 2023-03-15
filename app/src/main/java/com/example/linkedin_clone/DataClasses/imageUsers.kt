@@ -7,10 +7,11 @@ data class imageUsers(
     var id: String,
     var caption: String,
     var imageURL: String,
+    var profileImageURL: String,
     var uploadedBy: String,
     var name: String,
     var headline: String,
     var timeStamp: String
 ) {
-    constructor() : this("", "", "", "","","", "")
+    constructor() : this("","", "", "", "","","", "")
 }

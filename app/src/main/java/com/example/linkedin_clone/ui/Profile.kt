@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import com.bumptech.glide.Glide
 import com.example.linkedin_clone.DataClasses.User
 import com.example.linkedin_clone.R
 import com.example.linkedin_clone.coverPhotoActivity
@@ -136,8 +137,12 @@ class Profile : AppCompatActivity() {
             database.child(profileId).get().addOnSuccessListener {
                 val name = it.child("name").value.toString()
                 val headline = it.child("headline").value.toString()
+                val coverImage = it.child("coverImageURL").value.toString()
+                val profileImage = it.child("profileImageURL").value.toString()
                 findViewById<TextView>(R.id.txt_name).text = name
                 findViewById<TextView>(R.id.txt_headline).text = headline
+                Glide.with(applicationContext).load(coverImage).into(findViewById(R.id.background_img))
+                Glide.with(applicationContext).load(profileImage).into(findViewById(R.id.profileImg))
             }
     }
 

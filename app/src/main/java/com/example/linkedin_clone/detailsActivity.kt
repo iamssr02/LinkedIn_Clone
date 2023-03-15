@@ -80,8 +80,8 @@ class detailsActivity : AppCompatActivity() {
             "$industry",
             "$education",
             "${currentUserId}",
-            "",
-            ""
+            "https://firebasestorage.googleapis.com/v0/b/linkedin-clone-7f761.appspot.com/o/TempCoverAndProfile%2Fuser.png?alt=media&token=e146bc33-1a19-4028-8ff6-127d47903047",
+            "https://firebasestorage.googleapis.com/v0/b/linkedin-clone-7f761.appspot.com/o/TempCoverAndProfile%2Fic_card_bg.png?alt=media&token=87a17a3e-3fea-48a7-b14b-0184dcbbacf2"
         )
 
         //Realtime database upload

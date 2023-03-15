@@ -28,6 +28,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AddPost : AppCompatActivity() {
@@ -89,6 +90,7 @@ class AddPost : AppCompatActivity() {
         val caption = findViewById<EditText>(R.id.caption).text.toString()
         var name: String = ""
         var headline: String = ""
+        var profileImageURL: String = ""
         val uploadedBy = FirebaseAuth.getInstance().currentUser!!.uid
         val databaseRef = FirebaseDatabase.getInstance()
             .reference
@@ -112,12 +114,16 @@ class AddPost : AppCompatActivity() {
         .child(uploadedBy).get().addOnSuccessListener {
             name = it.child("name").value.toString()
             headline = it.child("headline").value.toString()
+                profileImageURL = it.child("profileImageURL").value.toString()
         }
         val databaseRef1 = FirebaseDatabase.getInstance()
             .reference
             .child("Images")
 
         CoroutineScope(IO).launch {
+                val simpleDate = SimpleDateFormat("dd/MM/yyyy")
+                val currentDate = simpleDate.format(Date())
+                println(" Current DateTime is -"+currentDate)
             imageURL = getDownloadImageURL(finalUri, newPostID!!, uploadedBy)
             val postMap: HashMap<String, Any?> = hashMapOf(
 //                "likes" to 0,
@@ -127,7 +133,8 @@ class AddPost : AppCompatActivity() {
                 "caption" to caption,
                 "imageURL" to imageURL,
                 "uploadedBy" to uploadedBy,
-                "timeStamp" to ServerValue.TIMESTAMP,
+                "profileImageURL" to profileImageURL,
+                "timeStamp" to currentDate.toString(),
             )
             Log.d("TAG", "savePostDetailsToDatabase: $postMap")
             databaseRef1.child(newPostID).setValue(postMap).addOnCompleteListener {task ->
