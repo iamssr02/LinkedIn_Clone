@@ -1,6 +1,7 @@
 package com.example.linkedin_clone.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +9,16 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.linkedin_clone.DataClasses.imageUsers
 import com.example.linkedin_clone.R
+import com.example.linkedin_clone.ui.Profile
+import com.example.linkedin_clone.ui.postActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -38,6 +43,17 @@ ImagesDiffUtilCallback()
         val currentUid = FirebaseAuth.getInstance().currentUser!!.uid
 
         checkLikeStatus(item, holder.itemView)
+
+        holder.itemView.setOnClickListener {
+//            Toast.makeText(context, item.id, Toast.LENGTH_SHORT).show()
+            val pref = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
+            pref.putString("postId",item.id)
+            pref.apply()
+            (context as FragmentActivity).startActivity(
+                Intent(this@ImageAdapter.context,
+                    postActivity::class.java)
+            )
+        }
 
         holder.itemView.findViewById<LinearLayout>(R.id.btn_like)?.setOnClickListener {
             val getButtonText =
