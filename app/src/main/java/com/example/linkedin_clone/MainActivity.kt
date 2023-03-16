@@ -4,12 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -71,55 +75,79 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.item_search_input).setOnClickListener {
             startActivity(Intent(this, searchActivity::class.java))
         }
-        val dbref = FirebaseDatabase.getInstance().getReference("Users")
-        dbref.child(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnSuccessListener {
-            val profileImage = it.child("profileImageURL").value.toString()
-            Glide.with(applicationContext).load(profileImage).into(findViewById(R.id.profileImg))
-        }
-        drawerLayout = findViewById(R.id.container)
-        val navView1: NavigationView = findViewById(R.id.nav_view_menu)
+
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        moveToFrag(HomeFragment())
 
 //        findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh).setOnRefreshListener {
 //            refreshApp(applicationContext)
 //        }
 
-        moveToFrag(HomeFragment())
-        toggle =
-            ActionBarDrawerToggle(this@MainActivity, drawerLayout, R.string.open, R.string.close)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        val menuIcon = findViewById<ImageView>(R.id.profileImg)
+        menuIcon.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+        drawerLayout = findViewById(R.id.container)
+        val navView1: NavigationView = findViewById(R.id.nav_view_menu)
+        val headerView = navView1.getHeaderView(0)
+        headerView.findViewById<LinearLayout>(R.id.viewProfile).setOnClickListener {
+            startActivity(Intent(this, Profile::class.java))
+        }
         navView1.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_account -> {
-                    startActivity(Intent(this, Profile::class.java))
+                    Toast.makeText(this@MainActivity, "Not yet implemented", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 R.id.nav_logout -> {
-                    Toast.makeText(this@MainActivity, "Second Item Clicked", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@MainActivity, "Not yet implemented", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
             true
         }
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            true
+        val dbref = FirebaseDatabase.getInstance().getReference("Users")
+        dbref.child(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnSuccessListener {
+            val profileImage = it.child("profileImageURL").value.toString()
+            val name = it.child("name").value.toString()
+            headerView.findViewById<TextView>(R.id.user_name).text = name
+            Glide.with(applicationContext).load(profileImage).into(findViewById(R.id.profileImg))
+            Glide.with(applicationContext).load(profileImage).into(headerView.findViewById<ImageView>(R.id.img))
         }
-        return super.onOptionsItemSelected(item)
     }
+
+    override fun onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//
+//        if (toggle.onOptionsItemSelected(item)) {
+//            true
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
 
     private fun moveToFrag(fragment: Fragment) {
-        val fragmentTrans = supportFragmentManager.beginTransaction()
-        fragmentTrans.replace(R.id.Fragment_container, fragment)
-        fragmentTrans.commit()
+        if(supportFragmentManager.findFragmentById(R.id.container) is HomeFragment){
+            val fragmentTrans = supportFragmentManager.beginTransaction()
+            fragmentTrans.add(R.id.Fragment_container, fragment)
+            fragmentTrans.commit()
+        }
+        else{
+            val fragmentTrans = supportFragmentManager.beginTransaction()
+            fragmentTrans.replace(R.id.Fragment_container, fragment)
+            fragmentTrans.commit()
+        }
     }
 
     private fun refreshApp(context: Context?) {

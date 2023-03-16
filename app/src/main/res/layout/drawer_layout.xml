@@ -14,32 +14,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_15sdp"
         android:orientation="vertical"
         android:id="@+id/viewProfile">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
             android:src="@drawable/user"
             tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/user_name"
-            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="@dimen/_15ssp"
             tools:text="USER" />
 
         <TextView
             android:id="@+id/tt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
             android:fontFamily="@font/roboto_bold"
             android:text="View Profile"
             android:textColor="@color/gray"
@@ -52,18 +51,17 @@
         android:id="@+id/profileViews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_25sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:fontFamily="@font/roboto_bold"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:fontFamily="@font/roboto_regular"
         android:text="50 profile views"
-        android:textColor="@color/gray"
-        android:textSize="13sp" />
+        android:textSize="15sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/_35sdp"
-        android:background="@color/gray" />
+        android:layout_marginTop="@dimen/_25sdp"
+        android:background="@color/light_gray" />
 
 
 </LinearLayout>
