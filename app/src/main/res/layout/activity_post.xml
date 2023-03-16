@@ -221,6 +221,7 @@
                         app:strokeColor="@color/white" />
 
                     <LinearLayout
+                        android:id="@+id/btn_comment"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -268,6 +269,7 @@
                         app:strokeColor="@color/white" />
 
                     <LinearLayout
+                        android:id="@+id/btn_share"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:background="?selectableItemBackground"
@@ -314,6 +316,7 @@
                         app:strokeColor="@color/white" />
 
                     <LinearLayout
+                        android:id="@+id/btn_send"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:background="?selectableItemBackground"

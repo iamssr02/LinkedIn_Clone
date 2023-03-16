@@ -52,6 +52,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, searchActivity::class.java))
         }
 
+        findViewById<ImageView>(R.id.msgBtn).setOnClickListener {
+            Toast.makeText(this, "Not yet implemented",Toast.LENGTH_SHORT).show()
+        }
+
 
         val menuIcon = findViewById<ImageView>(R.id.profileImg)
         menuIcon.setOnClickListener {

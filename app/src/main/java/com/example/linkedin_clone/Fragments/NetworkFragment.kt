@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedin_clone.Adapter.Network2Adapter
@@ -17,6 +19,7 @@ import com.example.linkedin_clone.DataClasses.ConnectionRequestUser
 import com.example.linkedin_clone.R
 import com.example.linkedin_clone.ui.invitationActivity
 import com.example.linkedin_clone.ui.manageNetwork
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -62,6 +65,9 @@ class NetworkFragment : Fragment() {
             val intent = Intent (activity, invitationActivity::class.java)
             activity?.startActivity(intent)
         }
+        view.findViewById<FloatingActionButton>(R.id.btn_new)?.setOnClickListener {
+            Toast.makeText(context,"Not yet implemented",Toast.LENGTH_SHORT).show()
+        }
 
         return view
 
@@ -84,7 +90,6 @@ class NetworkFragment : Fragment() {
                         userArrayList.add(user)
 
                     }
-
 
                     networkAdapter = NetworkAdapter()
                     userRecyclerview.adapter = networkAdapter

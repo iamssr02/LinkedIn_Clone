@@ -4,9 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.linkedin_clone.DataClasses.imageUsers
 import com.example.linkedin_clone.R
@@ -35,6 +33,19 @@ class postActivity : AppCompatActivity() {
 
         dbref = FirebaseDatabase.getInstance().getReference("Images")
         dbref2 = FirebaseDatabase.getInstance().getReference("Users")
+
+        findViewById<LinearLayout>(R.id.btn_like)?.setOnClickListener {
+            Toast.makeText(this,"Not yet implemented", Toast.LENGTH_SHORT).show()
+        }
+        findViewById<LinearLayout>(R.id.btn_comment)?.setOnClickListener {
+            Toast.makeText(this,"Not yet implemented", Toast.LENGTH_SHORT).show()
+        }
+        findViewById<LinearLayout>(R.id.btn_send)?.setOnClickListener {
+            Toast.makeText(this,"Not yet implemented", Toast.LENGTH_SHORT).show()
+        }
+        findViewById<LinearLayout>(R.id.btn_share)?.setOnClickListener {
+            Toast.makeText(this,"Not yet implemented", Toast.LENGTH_SHORT).show()
+        }
 
         CoroutineScope(Dispatchers.Main).launch {
             getUserData()

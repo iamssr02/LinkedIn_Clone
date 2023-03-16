@@ -56,21 +56,30 @@ ImagesDiffUtilCallback()
         }
 
         holder.itemView.findViewById<LinearLayout>(R.id.btn_like)?.setOnClickListener {
-            val getButtonText =
-                holder.itemView.findViewById<TextView>(R.id.like_clr).text.toString()
-            dbref1 = FirebaseDatabase.getInstance().getReference("Images").child(item.id).child("likes")
-            if (getButtonText == "Liked") {
-                dbref1.child(currentUid).removeValue()
-                holder.itemView.findViewById<ImageView>(R.id.ic_like)
-                    .setImageResource(R.drawable.ic_like)
-                holder.itemView.findViewById<TextView>(R.id.like_clr).text = "Like"
-            } else {
-                dbref1.child(currentUid).setValue("")
-                holder.itemView.findViewById<ImageView>(R.id.ic_like)
-                    .setImageResource(R.drawable.ic_liked)
-                holder.itemView.findViewById<TextView>(R.id.like_clr).text = "Liked"
-            }
-//            Toast.makeText(context,item.id,Toast.LENGTH_SHORT).show()
+//            val getButtonText =
+//                holder.itemView.findViewById<TextView>(R.id.like_clr).text.toString()
+//            dbref1 = FirebaseDatabase.getInstance().getReference("Images").child(item.id).child("likes")
+//            if (getButtonText == "Liked") {
+//                dbref1.child(currentUid).removeValue()
+//                holder.itemView.findViewById<ImageView>(R.id.ic_like)
+//                    .setImageResource(R.drawable.ic_like)
+//                holder.itemView.findViewById<TextView>(R.id.like_clr).text = "Like"
+//            } else {
+//                dbref1.child(currentUid).setValue("")
+//                holder.itemView.findViewById<ImageView>(R.id.ic_like)
+//                    .setImageResource(R.drawable.ic_liked)
+//                holder.itemView.findViewById<TextView>(R.id.like_clr).text = "Liked"
+//            }
+            Toast.makeText(context,"Not yet implemented",Toast.LENGTH_SHORT).show()
+        }
+        holder.itemView.findViewById<LinearLayout>(R.id.btn_comment)?.setOnClickListener {
+            Toast.makeText(context,"Not yet implemented",Toast.LENGTH_SHORT).show()
+        }
+        holder.itemView.findViewById<LinearLayout>(R.id.btn_share)?.setOnClickListener {
+            Toast.makeText(context,"Not yet implemented",Toast.LENGTH_SHORT).show()
+        }
+        holder.itemView.findViewById<LinearLayout>(R.id.btn_send)?.setOnClickListener {
+            Toast.makeText(context,"Not yet implemented",Toast.LENGTH_SHORT).show()
         }
     }
 
