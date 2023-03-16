@@ -36,53 +36,21 @@ import com.google.firebase.database.FirebaseDatabase
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var drawerLayout: DrawerLayout
-
-    private val onNavigationItemSelectedListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    moveToFrag(HomeFragment())
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.nav_network -> {
-                    moveToFrag(NetworkFragment())
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.nav_upload -> {
-                    startActivity(Intent(this, AddPost::class.java))
-                    return@OnNavigationItemSelectedListener false
-                }
-                R.id.nav_notification -> {
-                    moveToFrag(NotificationFragment())
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.nav_jobs -> {
-                    moveToFrag(JobsFragment())
-                    return@OnNavigationItemSelectedListener true
-                }
-            }
-
-            false
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
+        val navController = findNavController(R.id.fragmentContainerView2)
+        bottomNavigationView.setupWithNavController(navController)
+
         findViewById<TextView>(R.id.item_search_input).setOnClickListener {
             startActivity(Intent(this, searchActivity::class.java))
         }
-
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-        moveToFrag(HomeFragment())
-
-//        findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh).setOnRefreshListener {
-//            refreshApp(applicationContext)
-//        }
 
 
         val menuIcon = findViewById<ImageView>(R.id.profileImg)
@@ -124,45 +92,6 @@ class MainActivity : AppCompatActivity() {
         }
         else {
             super.onBackPressed();
-        }
-    }
-
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//
-//        if (toggle.onOptionsItemSelected(item)) {
-//            true
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-
-
-    private fun moveToFrag(fragment: Fragment) {
-        if(supportFragmentManager.findFragmentById(R.id.container) is HomeFragment){
-            val fragmentTrans = supportFragmentManager.beginTransaction()
-            fragmentTrans.add(R.id.Fragment_container, fragment)
-            fragmentTrans.commit()
-        }
-        else{
-            val fragmentTrans = supportFragmentManager.beginTransaction()
-            fragmentTrans.replace(R.id.Fragment_container, fragment)
-            fragmentTrans.commit()
-        }
-    }
-
-    private fun refreshApp(context: Context?) {
-        context.let {
-            val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-            fragmentManager.let {
-                val currentFragment = fragmentManager.findFragmentById(R.id.Fragment_container)
-                currentFragment?.let {
-                    val ft = fragmentManager.beginTransaction()
-                    ft.detach(it)
-                    ft.attach(it)
-                    ft.commit()
-                    findViewById<SwipeRefreshLayout>(R.id.swipeToRefresh)?.isRefreshing = false
-                }
-            }
         }
     }
 }
