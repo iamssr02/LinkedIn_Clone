@@ -81,15 +81,15 @@ class User {
         this.education = education
     }
     fun getProfileImageURL() : String {
-        return education
+        return profileImageURL
     }
-    fun setProfileImageURL(education: String) {
-        this.education = education
+    fun setProfileImageURL(profileImageURL: String) {
+        this.profileImageURL = profileImageURL
     }
     fun getCoverImageURL() : String {
-        return education
+        return coverImageURL
     }
-    fun setCoverImageURL(education: String) {
-        this.education = education
+    fun setCoverImageURL(coverImageURL: String) {
+        this.coverImageURL = coverImageURL
     }
 }

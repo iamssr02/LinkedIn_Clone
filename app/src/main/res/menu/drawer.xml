@@ -7,9 +7,13 @@
         android:id="@+id/nav_account"
         android:title="Groups" />
 
+    <item
+        android:id="@+id/nav_events"
+        android:title="Events"/>
+
 
     <item
         android:id="@+id/nav_logout"
-        android:title="Events" />
+        android:title="Sign out" />
 
 </menu>

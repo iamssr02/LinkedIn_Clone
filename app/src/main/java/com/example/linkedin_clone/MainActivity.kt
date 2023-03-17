@@ -28,21 +28,37 @@ import com.example.linkedin_clone.Fragments.NetworkFragment
 import com.example.linkedin_clone.Fragments.NotificationFragment
 import com.example.linkedin_clone.databinding.ActivityMainBinding
 import com.example.linkedin_clone.Fragments.*
+import com.example.linkedin_clone.ui.JoinNow
 import com.example.linkedin_clone.ui.Profile
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
+    lateinit var mGoogleSignInClient: GoogleSignInClient
+    private val auth by lazy {
+        FirebaseAuth.getInstance()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        mGoogleSignInClient= GoogleSignIn.getClient(this,gso)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         val navController = findNavController(R.id.fragmentContainerView2)
@@ -73,9 +89,17 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, "Not yet implemented", Toast.LENGTH_SHORT)
                         .show()
                 }
-                R.id.nav_logout -> {
+                R.id.nav_events -> {
                     Toast.makeText(this@MainActivity, "Not yet implemented", Toast.LENGTH_SHORT)
                         .show()
+                }
+                R.id.nav_logout -> {
+//                    Firebase.auth.signOut()
+                    mGoogleSignInClient.signOut().addOnCompleteListener {
+                        val intent = Intent(this,JoinNow::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
                 }
             }
             true
