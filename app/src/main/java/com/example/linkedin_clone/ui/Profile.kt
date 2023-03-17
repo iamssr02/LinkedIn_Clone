@@ -36,9 +36,8 @@ class Profile : AppCompatActivity() {
             var pname: String = ""
             var cname: String = ""
 
-            val pref = getSharedPreferences("PREFS", Context.MODE_PRIVATE)
-            if (pref != null) {
-                profileId = pref.getString("profileId", "none").toString()
+            if (intent.hasExtra("ID")) {
+                profileId = intent.getStringExtra("ID").toString()
             }
             userInfo(profileId)
             getConnections(profileId)

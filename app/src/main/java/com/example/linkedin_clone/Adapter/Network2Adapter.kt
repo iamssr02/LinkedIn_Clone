@@ -30,8 +30,6 @@ class Network2Adapter() : ListAdapter<ConnectionRequestUser, Network2Adapter.Con
 ) {
     private lateinit var firebaseUser: FirebaseUser
     private lateinit var context: Context
-    private lateinit var pname: String
-    private lateinit var cname: String
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConnectionsViewHolder {
         val view: View = LayoutInflater.from(parent.context)
@@ -43,35 +41,13 @@ class Network2Adapter() : ListAdapter<ConnectionRequestUser, Network2Adapter.Con
     override fun onBindViewHolder(holder: ConnectionsViewHolder, position: Int) {
         val item = getItem(position)
         holder.bindView(item, context)
+
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
+
         holder.itemView.setOnClickListener {
-            val pref = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
-            pref.putString("profileId",item.id)
-            pref.apply()
-            (context as FragmentActivity).startActivity(
-                Intent(this@Network2Adapter.context,
-                    Profile::class.java)
-            )
-        }
-        val followingRef = firebaseUser?.uid.let { it1 ->
-            FirebaseDatabase.getInstance().reference
-                .child("Follow").child(it1.toString())
-                .child("Connections")}
-        if (followingRef != null){
-            followingRef.addValueEventListener(object : ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if(snapshot.child(item.id).exists()){
-                        holder.itemView.findViewById<TextView>(R.id.txt1)?.text = "Connected"
-                    }
-                    else{
-                        holder.itemView.findViewById<TextView>(R.id.txt1)?.text = "Connect"
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
+            val intent = Intent(context, Profile::class.java)
+            intent.putExtra("ID", item.id)
+            (context as FragmentActivity).startActivity(intent)
         }
     }
 

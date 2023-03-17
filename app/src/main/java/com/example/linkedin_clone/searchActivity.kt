@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,8 +50,8 @@ class searchActivity : AppCompatActivity() {
         })
     }
     private fun searchUser(input: String) {
-        val query = FirebaseDatabase.getInstance().getReference()
-            .child("Users").orderByChild("name").startAt(input).endAt(input + "\uf8ff")
+        val query = FirebaseDatabase.getInstance().getReference("Users")
+            .orderByChild("name").startAt(input).endAt(input + "\uf8ff")
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 mUser?.clear()
@@ -60,6 +61,7 @@ class searchActivity : AppCompatActivity() {
                         mUser?.add(user)
                     }
                 }
+                Log.d("TAG", "searchResult: $mUser")
                 userAdapter?.notifyDataSetChanged()
             }
 
@@ -70,7 +72,7 @@ class searchActivity : AppCompatActivity() {
     }
 
     private fun retrieveUsers() {
-        val userRef = FirebaseDatabase.getInstance().getReference().child("Users")
+        val userRef = FirebaseDatabase.getInstance().getReference("Users")
         userRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if(findViewById<EditText>(R.id.search_layout)?.text.toString()!=""){

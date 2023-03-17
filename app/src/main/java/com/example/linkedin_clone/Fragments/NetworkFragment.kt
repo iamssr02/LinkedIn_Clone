@@ -50,6 +50,7 @@ class NetworkFragment : Fragment() {
         userArrayList = arrayListOf<ConnectionRequestUser>()
         userArrayList2 = arrayListOf<ConnectionRequestUser>()
         array = arrayListOf<String>()
+
         getUserData(view)
         getUserData2()
 
@@ -75,7 +76,8 @@ class NetworkFragment : Fragment() {
 
     private fun getUserData(view: View) {
         val currentUid = FirebaseAuth.getInstance().currentUser!!.uid
-        dbref = FirebaseDatabase.getInstance().getReference("Follow").child(currentUid).child("Requests")
+        dbref = FirebaseDatabase.getInstance().getReference("Follow")
+            .child(currentUid).child("Requests")
 
         dbref.addValueEventListener(object : ValueEventListener {
 

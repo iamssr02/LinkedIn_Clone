@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.linkedin_clone.DataClasses.User
 import com.example.linkedin_clone.R
 import com.example.linkedin_clone.ui.Profile
@@ -38,18 +39,19 @@ class SearchAdapter (private var mContext: Context,
     override fun onBindViewHolder(holder:SearchAdapter.ViewHolder, position: Int){
         val user = mUser[position]
         holder.name.text = user.getName()
+        holder.headline.text = user.getHeadline()
+        Glide.with(mContext).load(user.getProfileImageURL()).into(holder.profileImage)
 
         holder.itemView.setOnClickListener {
-            val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
-            pref.putString("profileId",user.getUID())
-            pref.apply()
-            (mContext as FragmentActivity).startActivity(Intent(this@SearchAdapter.mContext,Profile::class.java))
+            val intent = Intent(mContext, Profile::class.java)
+            intent.putExtra("ID", user.getUID())
+            (mContext as FragmentActivity).startActivity(intent)
         }
     }
 
     class ViewHolder(@NonNull itemView : View): RecyclerView.ViewHolder(itemView){
         val name : TextView = itemView.findViewById(R.id.username)
         val profileImage : CircleImageView = itemView.findViewById(R.id.profile_image)
-        val followBtn : Button = itemView.findViewById(R.id.followBtn)
+        val headline: TextView = itemView.findViewById(R.id.headline)
     }
 }
