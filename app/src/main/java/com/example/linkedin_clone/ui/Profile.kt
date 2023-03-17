@@ -12,11 +12,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
+import com.example.linkedin_clone.*
 import com.example.linkedin_clone.DataClasses.User
-import com.example.linkedin_clone.R
-import com.example.linkedin_clone.coverPhotoActivity
-import com.example.linkedin_clone.profilePhotoActivity
-import com.example.linkedin_clone.searchActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -36,6 +33,13 @@ class Profile : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        findViewById<ImageView>(R.id.btn_back).setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+        }
+
         findViewById<TextView>(R.id.item_search_input)?.setOnClickListener {
             val intent = Intent(this, searchActivity::class.java)
             startActivity(intent)
