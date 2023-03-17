@@ -120,29 +120,29 @@
         </RelativeLayout>
 
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/_5sdp"
-            app:cardBackgroundColor="#464d3c"
-            app:cardCornerRadius="@dimen/_20sdp">
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:layout_width="@dimen/_20sdp"-->
+<!--            android:layout_height="@dimen/_20sdp"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_margin="@dimen/_5sdp"-->
+<!--            app:cardBackgroundColor="#464d3c"-->
+<!--            app:cardCornerRadius="@dimen/_20sdp">-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:padding="@dimen/_3sdp"
-                    android:src="@drawable/ic_baseline_close_24"
-                    app:tint="@color/white" />
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerInParent="true"-->
+<!--                    android:padding="@dimen/_3sdp"-->
+<!--                    android:src="@drawable/ic_baseline_close_24"-->
+<!--                    app:tint="@color/white" />-->
 
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+<!--            </RelativeLayout>-->
+<!--        </androidx.cardview.widget.CardView>-->
 
     </RelativeLayout>
 
