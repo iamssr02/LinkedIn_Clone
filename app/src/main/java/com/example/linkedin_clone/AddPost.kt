@@ -74,6 +74,9 @@ class AddPost : AppCompatActivity() {
             Glide.with(applicationContext).load(imageURL).into(findViewById(R.id.user_img))
             findViewById<TextView>(R.id.user_name).text = name
         }
+        findViewById<ImageView>(R.id.close_img).setOnClickListener {
+            finish()
+        }
 
         //Not yet implemented
         findViewById<ImageView>(R.id.img1).setOnClickListener{

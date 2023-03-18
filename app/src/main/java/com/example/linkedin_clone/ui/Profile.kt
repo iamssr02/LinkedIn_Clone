@@ -99,9 +99,7 @@ class Profile : AppCompatActivity() {
 
         //On Click Listeners
         findViewById<ImageView>(R.id.btn_back).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(intent)
+            finish()
         }
 
         findViewById<TextView>(R.id.item_search_input)?.setOnClickListener {
