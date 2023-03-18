@@ -191,13 +191,13 @@
                             android:id="@+id/item_search_input"
                             android:background="@drawable/background"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_28sdp"
+                            android:layout_height="@dimen/_25sdp"
                             android:drawableStart="@drawable/ic_search_black_24dp"
                             android:paddingStart="@dimen/_5sdp"
                             android:paddingEnd="@dimen/_5sdp"
                             android:text="Search"
-                            android:textColor="@color/black"
-                            android:textSize="18sp"
+                            android:textColor="@color/gray"
+                            android:textSize="16sp"
                             android:gravity="center_vertical" />
 
 

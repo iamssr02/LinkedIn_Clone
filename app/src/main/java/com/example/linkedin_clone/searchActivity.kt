@@ -1,12 +1,16 @@
 package com.example.linkedin_clone
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedin_clone.Adapter.SearchAdapter
@@ -23,12 +27,18 @@ class searchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
         recyclerView = findViewById(R.id.recycler_view_search)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = LinearLayoutManager(this)
         mUser = ArrayList()
         userAdapter = SearchAdapter(this, mUser as ArrayList<User>, true)
         recyclerView?.adapter = userAdapter
+
+        findViewById<ImageView>(R.id.btn_back).setOnClickListener {
+            finish()
+        }
+
         findViewById<EditText>(R.id.search_layout).addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 

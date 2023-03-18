@@ -43,7 +43,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/item_search_input"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/_28sdp"
+                    android:layout_height="@dimen/_25sdp"
                     android:layout_marginStart="@dimen/_6sdp"
                     android:layout_marginTop="@dimen/_6sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
@@ -53,8 +53,8 @@
                     android:paddingStart="@dimen/_5sdp"
                     android:paddingEnd="@dimen/_5sdp"
                     android:text="Search"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
                     app:layout_constraintEnd_toStartOf="@+id/msgBtn"
                     app:layout_constraintStart_toEndOf="@+id/profileImg"
                     app:layout_constraintTop_toTopOf="parent" />

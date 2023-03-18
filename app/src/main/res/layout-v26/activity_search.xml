@@ -54,6 +54,8 @@
                         android:hint="Search"
                         android:inputType="text"
                         android:maxLines="1"
+                        android:focusedByDefault="true"
+                        
                         android:textColor="@color/gray"
                         android:textColorHint="@color/gray"
                         android:textSize="@dimen/_13ssp" />
