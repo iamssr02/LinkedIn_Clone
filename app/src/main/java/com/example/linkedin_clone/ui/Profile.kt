@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
 import com.example.linkedin_clone.*
@@ -23,6 +24,7 @@ import kotlinx.coroutines.tasks.await
 
 class Profile : AppCompatActivity() {
     private lateinit var firebaseUser: FirebaseUser
+
 
     @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,9 +112,24 @@ class Profile : AppCompatActivity() {
         findViewById<ImageView>(R.id.profileImg).setOnClickListener {
             startActivity(Intent(this, profilePhotoActivity::class.java))
         }
-
         findViewById<ImageView>(R.id.background_img).setOnClickListener {
             startActivity(Intent(this, coverPhotoActivity::class.java))
+        }
+
+        findViewById<CardView>(R.id.messegeOrAddSection).setOnClickListener {
+            Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show()
+        }
+        findViewById<ImageView>(R.id.more).setOnClickListener {
+            Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show()
+        }
+        findViewById<ImageView>(R.id.editAccomplishments).setOnClickListener {
+            Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show()
+        }
+        findViewById<ImageView>(R.id.editEducation).setOnClickListener {
+            Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show()
+        }
+        findViewById<ImageView>(R.id.editIndustry).setOnClickListener {
+            Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -140,10 +157,14 @@ class Profile : AppCompatActivity() {
         val database = FirebaseDatabase.getInstance().getReference("Users").child(profileId)
         val name = database.get().await().child("name").value.toString()
         val headline = database.get().await().child("headline").value.toString()
+        val education = database.get().await().child("education").value.toString()
+        val industry = database.get().await().child("industry").value.toString()
         val coverImage = database.get().await().child("coverImageURL").value.toString()
         val profileImage = database.get().await().child("profileImageURL").value.toString()
         findViewById<TextView>(R.id.txt_name).text = name
         findViewById<TextView>(R.id.txt_headline).text = headline
+        findViewById<TextView>(R.id.education).text = education
+        findViewById<TextView>(R.id.industry).text = industry
         Glide.with(applicationContext).load(coverImage).into(findViewById(R.id.background_img))
         Glide.with(applicationContext).load(profileImage).into(findViewById(R.id.profileImg))
     }

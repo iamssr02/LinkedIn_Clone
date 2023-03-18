@@ -344,6 +344,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/messegeOrAddSection"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -405,10 +406,10 @@
 
 
                                     <ImageView
+                                        android:id="@+id/more"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_centerInParent="true"
-                                        android:layout_centerVertical="true"
                                         android:padding="@dimen/_2sdp"
                                         android:src="@drawable/ic_baseline_more_horiz_24" />
 
@@ -434,8 +435,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_5sdp"
                     android:orientation="vertical"
-                    android:padding="@dimen/_5sdp"
-                    android:visibility="gone">
+                    android:padding="@dimen/_5sdp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -446,11 +446,12 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:text="Experience"
+                            android:text="Industry"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp" />
 
                         <ImageView
+                            android:id="@+id/editIndustry"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_alignParentEnd="true"
@@ -480,6 +481,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/industry"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_5sdp"
@@ -500,9 +502,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="April 2021 - Present 3 mons"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_10ssp"
-
-                                />
+                                android:textSize="@dimen/_10ssp" />
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -532,6 +532,7 @@
                                 android:textSize="@dimen/_12ssp" />
 
                             <ImageView
+                                android:id="@+id/editEducation"
                                 android:layout_width="@dimen/_20sdp"
                                 android:layout_height="@dimen/_20sdp"
                                 android:layout_alignParentEnd="true"
@@ -560,6 +561,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/education"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/_5sdp"
@@ -598,7 +600,7 @@
                     android:layout_margin="@dimen/_5sdp"
                     android:orientation="vertical"
                     android:padding="@dimen/_5sdp"
-                    android:visibility="gone">
+                    >
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -614,6 +616,7 @@
                             android:textSize="@dimen/_12ssp" />
 
                         <ImageView
+                            android:id="@+id/editAccomplishments"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_alignParentEnd="true"
@@ -670,6 +673,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_5sdp"
                     android:background="#e9e6dd" />
+
+            <LinearLayout
+                android:id="@+id/myPosts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:orientation="vertical"
+                android:padding="@dimen/_5sdp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My posts"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/posts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_2sdp"
+                    tools:listitem="@layout/card_post"
+                    tools:itemCount="1"/>
+            </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
