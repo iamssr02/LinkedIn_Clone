@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         val navView1: NavigationView = findViewById(R.id.nav_view_menu)
         val headerView = navView1.getHeaderView(0)
         headerView.findViewById<LinearLayout>(R.id.viewProfile).setOnClickListener {
+            drawerLayout.closeDrawer(GravityCompat.START)
             startActivity(Intent(this, Profile::class.java))
         }
         navView1.setNavigationItemSelectedListener {

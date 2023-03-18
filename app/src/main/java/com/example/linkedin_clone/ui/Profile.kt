@@ -5,12 +5,13 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.util.Log
+import android.view.View
+import android.widget.*
 import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
 import com.example.linkedin_clone.*
+import com.google.api.Distribution.BucketOptions.Linear
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -32,17 +33,23 @@ class Profile : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        var profileId = FirebaseAuth.getInstance().currentUser!!.uid
+        if (intent.hasExtra("ID")) {
+            profileId = intent.getStringExtra("ID").toString()
+        }
 
         CoroutineScope(Dispatchers.Main).launch {
-            var profileId = FirebaseAuth.getInstance().currentUser!!.uid
+
             var pname: String = ""
             var cname: String = ""
 
-            if (intent.hasExtra("ID")) {
-                profileId = intent.getStringExtra("ID").toString()
-            }
             userInfo(profileId)
             getConnections(profileId)
+
+            FirebaseDatabase.getInstance().getReference("Post").child(profileId).get().addOnSuccessListener {
+                if (it.exists())
+                    findViewById<RelativeLayout>(R.id.myPosts).visibility = View.VISIBLE
+            }
 
             pname =
                 FirebaseDatabase.getInstance().getReference("Users").child(profileId).get().await()
@@ -53,9 +60,11 @@ class Profile : AppCompatActivity() {
             if (profileId == firebaseUser.uid) {
                 findViewById<TextView>(R.id.connectBtn).text = "Open to"
                 findViewById<TextView>(R.id.messageBtn).text = "Add section"
+                findViewById<TextView>(R.id.posts).text = "My posts"
             } else if (profileId != firebaseUser.uid) {
                 checkConnection(profileId)
                 findViewById<TextView>(R.id.messageBtn).text = "Message"
+                findViewById<TextView>(R.id.posts).text = "${pname.trim()}'s posts"
             }
 
             findViewById<CardView>(R.id.Btn1).setOnClickListener {
@@ -109,6 +118,12 @@ class Profile : AppCompatActivity() {
             startActivity(intent)
         }
 
+        findViewById<RelativeLayout>(R.id.myPosts).setOnClickListener{
+            val intent = Intent(this, myPostsActivity::class.java)
+            intent.putExtra("ID",profileId)
+            startActivity(intent)
+        }
+
         findViewById<ImageView>(R.id.profileImg).setOnClickListener {
             startActivity(Intent(this, profilePhotoActivity::class.java))
         }
@@ -155,13 +170,16 @@ class Profile : AppCompatActivity() {
     private suspend fun userInfo(profileId: String) {
 //        val database = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid)
         val database = FirebaseDatabase.getInstance().getReference("Users").child(profileId)
-        val name = database.get().await().child("name").value.toString()
-        val headline = database.get().await().child("headline").value.toString()
-        val education = database.get().await().child("education").value.toString()
-        val industry = database.get().await().child("industry").value.toString()
+        val name = database.get().await().child("name").value.toString().trim()
+        val email = database.get().await().child("email").value.toString().trim()
+        val headline = database.get().await().child("headline").value.toString().trim()
+        val education = database.get().await().child("education").value.toString().trim()
+        val industry = database.get().await().child("industry").value.toString().trim()
         val coverImage = database.get().await().child("coverImageURL").value.toString()
         val profileImage = database.get().await().child("profileImageURL").value.toString()
         findViewById<TextView>(R.id.txt_name).text = name
+        findViewById<TextView>(R.id.user_email).text = email
+        findViewById<TextView>(R.id.profile_link).text = "www.linkedin.com/in/${name.lowercase().replace(' ','-')}/"
         findViewById<TextView>(R.id.txt_headline).text = headline
         findViewById<TextView>(R.id.education).text = education
         findViewById<TextView>(R.id.industry).text = industry
