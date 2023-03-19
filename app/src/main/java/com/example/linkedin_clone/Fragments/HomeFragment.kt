@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
 
                         }
                         Log.d("TAG", "image: $userArrayList")
-                        imageAdapter.submitList(userArrayList)
+                        imageAdapter.submitList(userArrayList.asReversed())
 
                     }
                 }

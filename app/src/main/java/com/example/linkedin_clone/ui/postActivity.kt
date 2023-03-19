@@ -85,18 +85,27 @@ class postActivity : AppCompatActivity() {
     private fun removePost() {
         FirebaseDatabase.getInstance().getReference("Images").child(postId).child("imageURL").get()
             .addOnSuccessListener {
-                val imageURL = it.value.toString()
-                FirebaseStorage.getInstance().getReferenceFromUrl(imageURL).delete()
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Post deleted successfully", Toast.LENGTH_SHORT).show()
-                    }.addOnFailureListener {
-                    Toast.makeText(this, "Error occurred while deleting post", Toast.LENGTH_SHORT)
-                        .show()
+                if (it.exists()){
+                    val imageURL = it.value.toString()
+                    FirebaseStorage.getInstance().getReferenceFromUrl(imageURL).delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Post deleted successfully", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(this, "Error occurred while deleting post", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    FirebaseDatabase.getInstance().getReference("Images").child(postId).removeValue()
+                    FirebaseDatabase.getInstance().getReference("Post")
+                        .child(FirebaseAuth.getInstance().currentUser!!.uid).child(postId).removeValue()
+                    mProgressBar.visibility = View.INVISIBLE
                 }
-                FirebaseDatabase.getInstance().getReference("Images").child(postId).removeValue()
-                FirebaseDatabase.getInstance().getReference("Post")
-                    .child(FirebaseAuth.getInstance().currentUser!!.uid).child(postId).removeValue()
-                mProgressBar.visibility = View.INVISIBLE
+                else{
+                    FirebaseDatabase.getInstance().getReference("Images").child(postId).removeValue()
+                    FirebaseDatabase.getInstance().getReference("Post")
+                        .child(FirebaseAuth.getInstance().currentUser!!.uid).child(postId).removeValue()
+                    Toast.makeText(this, "Post deleted successfully", Toast.LENGTH_SHORT).show()
+                    mProgressBar.visibility = View.INVISIBLE
+                }
             }
     }
 

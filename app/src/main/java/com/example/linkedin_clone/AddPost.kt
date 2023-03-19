@@ -33,11 +33,12 @@ import java.util.*
 
 class AddPost : AppCompatActivity() {
 
-    private lateinit var mProgressBar : ProgressBar
+    private lateinit var mProgressBar: ProgressBar
     private var finalUri: Uri? = null
     private val REQUEST_GALLERY = 1001
     private val getContent = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()){ result ->
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
         val requestCode = result.data?.extras?.getInt(REQUEST_GALLERY.toString())
         Log.d("tag", "RequestCode : $requestCode")
         if (result.resultCode == Activity.RESULT_OK) {
@@ -47,19 +48,20 @@ class AddPost : AppCompatActivity() {
             }
         }
     }
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val intent: Intent? = result.data
-            Log.d("tag", "Intent: $intent")
-            if (intent != null) {
-                finalUri = UCrop.getOutput(intent)!!
-                Log.d("tag", "Intent finalUri : $finalUri")
-                Glide.with(applicationContext)
-                    .load(finalUri)
-                    .into(findViewById(R.id.post_img))
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent: Intent? = result.data
+                Log.d("tag", "Intent: $intent")
+                if (intent != null) {
+                    finalUri = UCrop.getOutput(intent)!!
+                    Log.d("tag", "Intent finalUri : $finalUri")
+                    Glide.with(applicationContext)
+                        .load(finalUri)
+                        .into(findViewById(R.id.post_img))
+                }
             }
         }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
