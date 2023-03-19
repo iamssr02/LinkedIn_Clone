@@ -88,7 +88,6 @@ class NetworkFragment : Fragment() {
                     for(userSnapshot in snapshot.children) {
                         val user = ConnectionRequestUser(userSnapshot.key.toString(),
                             userSnapshot.value.toString())
-                        Log.d("TAG", "Value: $user")
                         userArrayList.add(user)
 
                     }
@@ -142,7 +141,6 @@ class NetworkFragment : Fragment() {
                         if(array.contains(userSnapshot.key.toString())){
                         }
                         else{
-                            Log.d("TAG", "Check22: ${userSnapshot.child("headline").value.toString()}")
                             val user = ConnectionRequestUser(userSnapshot.key.toString(),
                                 userSnapshot.child("name").value.toString(),
                                 userSnapshot.child("headline").value.toString(),
@@ -151,7 +149,6 @@ class NetworkFragment : Fragment() {
                             userArrayList2.add(user)
                         }
                     }
-                    Log.d("TAG", "Check2: $userArrayList2")
 
                     networkAdapter2 = Network2Adapter()
                     userRecyclerview2.adapter = networkAdapter2

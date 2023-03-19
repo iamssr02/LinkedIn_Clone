@@ -39,7 +39,6 @@ class Profile : AppCompatActivity() {
         }
 
         CoroutineScope(Dispatchers.Main).launch {
-
             var pname: String = ""
             var cname: String = ""
 
@@ -97,6 +96,11 @@ class Profile : AppCompatActivity() {
                                 .child("Follow").child(it1.toString())
                                 .child("Following").child(profileId).removeValue()
                         }
+                        firebaseUser?.uid.let { it1 ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Follow").child(it1.toString())
+                                .child("Connections").child(profileId).removeValue()
+                        }
 
                         firebaseUser.uid.let { it1 ->
                             FirebaseDatabase.getInstance().reference
@@ -112,18 +116,15 @@ class Profile : AppCompatActivity() {
         findViewById<ImageView>(R.id.btn_back).setOnClickListener {
             finish()
         }
-
         findViewById<TextView>(R.id.item_search_input)?.setOnClickListener {
             val intent = Intent(this, searchActivity::class.java)
             startActivity(intent)
         }
-
         findViewById<RelativeLayout>(R.id.myPosts).setOnClickListener{
             val intent = Intent(this, myPostsActivity::class.java)
             intent.putExtra("ID",profileId)
             startActivity(intent)
         }
-
         findViewById<ImageView>(R.id.profileImg).setOnClickListener {
             startActivity(Intent(this, profilePhotoActivity::class.java))
         }
@@ -131,7 +132,11 @@ class Profile : AppCompatActivity() {
             startActivity(Intent(this, coverPhotoActivity::class.java))
         }
 
+        //Not yet implemented
         findViewById<CardView>(R.id.messegeOrAddSection).setOnClickListener {
+            Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show()
+        }
+        findViewById<ImageView>(R.id.settingsBtn).setOnClickListener {
             Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show()
         }
         findViewById<ImageView>(R.id.more).setOnClickListener {
@@ -168,7 +173,6 @@ class Profile : AppCompatActivity() {
 
     //Getting user info of a Profile Id
     private suspend fun userInfo(profileId: String) {
-//        val database = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().currentUser!!.uid)
         val database = FirebaseDatabase.getInstance().getReference("Users").child(profileId)
         val name = database.get().await().child("name").value.toString().trim()
         val email = database.get().await().child("email").value.toString().trim()

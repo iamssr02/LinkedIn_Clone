@@ -5,12 +5,14 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.linkedin_clone.DataClasses.ConnectionRequestUser
 import com.example.linkedin_clone.R
 import com.example.linkedin_clone.ui.Profile
@@ -37,20 +39,20 @@ class ConnectionAdapter() : ListAdapter<ConnectionRequestUser, ConnectionAdapter
         val item = getItem(position)
         holder.bindView(item, context)
         holder.itemView.setOnClickListener {
-            val pref = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
-            pref.putString("profileId",item.id)
-            pref.apply()
-            (context as FragmentActivity).startActivity(
-                Intent(this@ConnectionAdapter.context,
-                    Profile::class.java)
-            )
+            val intent = Intent(context, Profile::class.java)
+            intent.putExtra("ID", item.id)
+            (context as FragmentActivity).startActivity(intent)
         }
     }
 
     class ConnectionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val user: TextView = itemView.findViewById(R.id.username)
+        val headline: TextView = itemView.findViewById(R.id.headline)
+        val profileImage: ImageView = itemView.findViewById(R.id.profile_image)
         fun bindView(item: ConnectionRequestUser, context: Context) {
-            val user: TextView = itemView.findViewById(R.id.username)
             user.text = item.firstName
+            headline.text = item.headline
+            Glide.with(context).load(item.profileImage).into(profileImage)
         }
     }
 

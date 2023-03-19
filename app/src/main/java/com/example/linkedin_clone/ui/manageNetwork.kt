@@ -3,6 +3,7 @@ package com.example.linkedin_clone.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -22,6 +23,9 @@ class manageNetwork : AppCompatActivity() {
 
         findViewById<LinearLayout>(R.id.connectionLayout).setOnClickListener {
             startActivity(Intent(this, connectionActivity::class.java))
+        }
+        findViewById<ImageView>(R.id.btn_back).setOnClickListener {
+            finish()
         }
         findViewById<LinearLayout>(R.id.followLayout).setOnClickListener {
             Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show()

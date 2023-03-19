@@ -20,7 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:orientation="vertical"
             android:layout_weight="1">
 
@@ -28,21 +29,21 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
                 android:text="Username"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/roboto_bold"
+                android:textSize="16sp"
+                android:maxLines="1"/>
 
 
 
             <TextView
-                android:id="@+id/following_status"
+                android:id="@+id/headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
                 android:text="Headline"
-                android:textSize="18sp" />
+                android:textSize="14sp"
+                android:maxLines="2"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
