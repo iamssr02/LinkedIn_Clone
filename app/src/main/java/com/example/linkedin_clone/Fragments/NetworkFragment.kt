@@ -50,6 +50,7 @@ class NetworkFragment : Fragment() {
         userRecyclerview2.layoutManager = LinearLayoutManager(context)
         userRecyclerview.setHasFixedSize(true)
         userRecyclerview2.setHasFixedSize(true)
+        userRecyclerview2.isNestedScrollingEnabled = false
 
         userArrayList = arrayListOf<ConnectionRequestUser>()
         userArrayList2 = arrayListOf<ConnectionRequestUser>()

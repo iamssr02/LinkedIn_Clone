@@ -133,7 +133,12 @@ class ImagesDiffUtilCallback() : DiffUtil.ItemCallback<imageUsers>() {
     }
 
     override fun areContentsTheSame(oldItem: imageUsers, newItem: imageUsers): Boolean {
-        return oldItem == newItem
+        return oldItem.caption == newItem.caption
+                && oldItem.imageURL == newItem.imageURL
+                && oldItem.profileImageURL == newItem.profileImageURL
+                && oldItem.uploadedBy == newItem.uploadedBy
+                && oldItem.name == newItem.name
+                && oldItem.headline == newItem.headline
+                && oldItem.timeStamp == newItem.timeStamp
     }
-
 }

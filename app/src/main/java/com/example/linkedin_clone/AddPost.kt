@@ -97,8 +97,12 @@ class AddPost : AppCompatActivity() {
                 pickImageFromGallery()
             }
             else {
-                Toast.makeText(applicationContext, "Allow all permissions", Toast.LENGTH_SHORT).show()
-                requestPermission()
+                do{
+                    requestPermission()
+                    if (checkSelfPermission()){
+                        pickImageFromGallery()
+                    }
+                }while (!checkSelfPermission())
             }
         }
         findViewById<TextView>(R.id.btn_post).setOnClickListener {

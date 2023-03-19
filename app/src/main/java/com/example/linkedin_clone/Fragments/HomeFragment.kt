@@ -60,9 +60,8 @@ class HomeFragment : Fragment() {
         val currentUid = FirebaseAuth.getInstance().currentUser!!.uid
         dbref = FirebaseDatabase.getInstance().getReference("Images")
         dbref2 = FirebaseDatabase.getInstance().getReference("Users")
+
         dbref.addValueEventListener(object : ValueEventListener {
-
-
             override fun onDataChange(snapshot: DataSnapshot) {
                 CoroutineScope(IO).launch {
                     var name: String = ""
