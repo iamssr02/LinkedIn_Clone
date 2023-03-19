@@ -70,6 +70,7 @@ class Profile : AppCompatActivity() {
                 val getButtonText = findViewById<TextView>(R.id.connectBtn).text.toString()
                 when {
                     getButtonText == "Connect" -> {
+                        Toast.makeText(applicationContext, "Connect Request sent",Toast.LENGTH_SHORT).show()
                         firebaseUser.uid.let { it1 ->
                             FirebaseDatabase.getInstance().reference
                                 .child("Follow").child(it1)
@@ -89,7 +90,6 @@ class Profile : AppCompatActivity() {
                         }
 
                     }
-
                     getButtonText == "Connected" -> {
                         firebaseUser?.uid.let { it1 ->
                             FirebaseDatabase.getInstance().reference
@@ -106,6 +106,26 @@ class Profile : AppCompatActivity() {
                             FirebaseDatabase.getInstance().reference
                                 .child("Follow").child(profileId)
                                 .child("Connections").child(it1.toString()).removeValue()
+                        }
+                    }
+                    getButtonText == "Pending" -> {
+                        Toast.makeText(applicationContext, "Connect Request retrieved",Toast.LENGTH_SHORT).show()
+                        firebaseUser.uid.let { it1 ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Follow").child(it1)
+                                .child("Following").child(profileId).removeValue()
+                        }
+
+                        firebaseUser.uid.let { it1 ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Follow").child(profileId)
+                                .child("Connections").child(it1.toString()).removeValue()
+                        }
+
+                        firebaseUser.uid.let { it1 ->
+                            FirebaseDatabase.getInstance().reference
+                                .child("Follow").child(profileId)
+                                .child("Requests").child(it1.toString()).removeValue()
                         }
                     }
                 }
@@ -163,6 +183,9 @@ class Profile : AppCompatActivity() {
                     findViewById<TextView>(R.id.connectionsNumber)?.text =
                         "${snapshot.childrenCount.toString()} connections"
                 }
+                else{
+                    findViewById<TextView>(R.id.connectionsNumber)?.text = "0 connections"
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -216,26 +239,46 @@ class Profile : AppCompatActivity() {
     }
 
     private fun checkConnection(profileId: String) {
-        val followingRef = firebaseUser?.uid.let { it1 ->
+        val followingRef = firebaseUser.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                 .child("Follow").child(it1.toString())
                 .child("Connections")
         }
-        if (followingRef != null) {
-            followingRef.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-
-                    if (snapshot.child(profileId).exists()) {
-                        findViewById<TextView>(R.id.connectBtn)?.text = "Connected"
-                    } else {
-                        findViewById<TextView>(R.id.connectBtn)?.text = "Connect"
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
+        val followingRef1 = firebaseUser.uid.let { it1 ->
+            FirebaseDatabase.getInstance().reference
+                .child("Follow").child(profileId)
+                .child("Requests")
         }
+        followingRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                if (snapshot.child(profileId).exists()) {
+                    findViewById<TextView>(R.id.connectBtn)?.text = "Connected"
+                } else {
+                    findViewById<TextView>(R.id.connectBtn)?.text = "Connect"
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        })
+        followingRef1.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.child(FirebaseAuth.getInstance().currentUser!!.uid).exists()) {
+                    findViewById<TextView>(R.id.connectBtn)?.text = "Pending"
+                    findViewById<CardView>(R.id.Btn1)?.setCardBackgroundColor(getColor(R.color.gray))
+
+                }
+                else
+                {
+                    findViewById<TextView>(R.id.connectBtn)?.text = "Connect"
+                    findViewById<CardView>(R.id.Btn1)?.setCardBackgroundColor(getColor(R.color.main_color))
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
     }
 }
