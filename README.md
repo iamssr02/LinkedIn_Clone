@@ -1,5 +1,9 @@
 # LinkedIn_Clone
 
+
+https://user-images.githubusercontent.com/107570247/226182893-67701c14-22bd-41c9-a89e-0f6258740228.mp4
+
+
 This is built using Kotlin within a week. My first big project after learning Kotlin and Android Development. 
 
 ## Features and Fuctionality
