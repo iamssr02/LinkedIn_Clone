@@ -28,6 +28,8 @@ import java.util.*
 
 class profilePhotoActivity : AppCompatActivity() {
     private lateinit var mProgressBar: ProgressBar
+    private var flag: String = ""
+    private var postFlag: String = "0"
     private var finalUri: Uri? = null
     private val REQUEST_GALLERY = 1001
     private val getContent = registerForActivityResult(
@@ -48,6 +50,7 @@ class profilePhotoActivity : AppCompatActivity() {
                 val intent: Intent? = result.data
                 Log.d("tag", "Intent: $intent")
                 if (intent != null) {
+                    postFlag = "1"
                     finalUri = UCrop.getOutput(intent)!!
                     Log.d("tag", "Intent finalUri : $finalUri")
                     Glide.with(applicationContext)
@@ -60,6 +63,14 @@ class profilePhotoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_photo)
+
+        if (intent.hasExtra("FLAG")) {
+            this.flag = intent.getStringExtra("FLAG").toString()
+        }
+        if (intent.hasExtra("postFlag")) {
+            this.postFlag = intent.getStringExtra("postFlag").toString()
+        }
+
         mProgressBar = findViewById(R.id.phoneProgressBar)
         mProgressBar.visibility = View.INVISIBLE
         FirebaseDatabase.getInstance().getReference("Users").
@@ -78,15 +89,24 @@ class profilePhotoActivity : AppCompatActivity() {
         }
 
         findViewById<TextView>(R.id.btn_post).setOnClickListener {
+            if (postFlag=="0"){
+                Toast.makeText(this,"Please pick a picture first",Toast.LENGTH_SHORT).show()
+            }
+            else{
                 mProgressBar.visibility = View.VISIBLE
                 savePostDetailsToDatabase()
-
+            }
         }
 
         findViewById<TextView>(R.id.btn_skip).setOnClickListener {
-            val intent = Intent(this, coverPhotoActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
+            if(flag == ""){
+                val intent = Intent(this, coverPhotoActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+            }
+            else{
+                finish()
+            }
         }
     }
 
@@ -103,9 +123,16 @@ class profilePhotoActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // handle successful after events
                     mProgressBar.visibility = View.INVISIBLE
-                    val intent = Intent(this@profilePhotoActivity, coverPhotoActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    startActivity(intent)
+                    if(flag == "") {
+                        val intent = Intent(this@profilePhotoActivity, coverPhotoActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(intent)
+                    }
+                    else{
+                        val intent = Intent(this@profilePhotoActivity, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(intent)
+                    }
                 } else {
                     Log.d("TAG", "savePostDetailsToDatabase: ${task.exception}")
                 }
@@ -170,7 +197,7 @@ class profilePhotoActivity : AppCompatActivity() {
         var destinationFileName: String = StringBuilder(UUID.randomUUID().toString()).toString()
         destinationFileName += ".jpg"
         val uCrop = UCrop.of(imageUri, Uri.fromFile(File(cacheDir, destinationFileName)))
-        uCrop.withAspectRatio(25F, 10F);
+        uCrop.withAspectRatio(10F, 10F);
         getCropOptions().let { uCrop.withOptions(it) }
         val uCropIntent = uCrop.getIntent(applicationContext)
         resultLauncher.launch(uCropIntent)
@@ -186,7 +213,7 @@ class profilePhotoActivity : AppCompatActivity() {
 
         //UI
         options.setHideBottomControls(false)
-        options.setFreeStyleCropEnabled(true)
+        options.setFreeStyleCropEnabled(false)
 
         options.setToolbarTitle("Crop Image")
         Log.d("tag", "getCropOptions: ")

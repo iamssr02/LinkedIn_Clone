@@ -149,10 +149,14 @@ class Profile : AppCompatActivity() {
             startActivity(intent)
         }
         findViewById<ImageView>(R.id.profileImg).setOnClickListener {
-            startActivity(Intent(this, profilePhotoActivity::class.java))
+            val intent = Intent(this, profilePhotoActivity::class.java)
+            intent.putExtra("FLAG","From Profile")
+            startActivity(intent)
         }
         findViewById<ImageView>(R.id.background_img).setOnClickListener {
-            startActivity(Intent(this, coverPhotoActivity::class.java))
+            val intent = Intent(this, coverPhotoActivity::class.java)
+            intent.putExtra("FLAG","From Profile")
+            startActivity(intent)
         }
 
         //Not yet implemented

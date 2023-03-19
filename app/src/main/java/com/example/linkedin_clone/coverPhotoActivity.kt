@@ -27,11 +27,14 @@ import java.io.File
 import java.util.*
 
 class coverPhotoActivity : AppCompatActivity() {
-    private lateinit var mProgressBar : ProgressBar
+    private lateinit var mProgressBar: ProgressBar
+    private var flag: String = ""
+    private var postFlag: String = "0"
     private var finalUri: Uri? = null
     private val REQUEST_GALLERY = 1001
     private val getContent = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()){ result ->
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
         val requestCode = result.data?.extras?.getInt(REQUEST_GALLERY.toString())
         Log.d("tag", "RequestCode : $requestCode")
         if (result.resultCode == Activity.RESULT_OK) {
@@ -41,48 +44,68 @@ class coverPhotoActivity : AppCompatActivity() {
             }
         }
     }
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val intent: Intent? = result.data
-            Log.d("tag", "Intent: $intent")
-            if (intent != null) {
-                finalUri = UCrop.getOutput(intent)!!
-                Log.d("tag", "Intent finalUri : $finalUri")
-                Glide.with(applicationContext)
-                    .load(finalUri)
-                    .into(findViewById(R.id.cover_img))
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent: Intent? = result.data
+                Log.d("tag", "Intent: $intent")
+                if (intent != null) {
+                    postFlag = "1"
+                    finalUri = UCrop.getOutput(intent)!!
+                    Log.d("tag", "Intent finalUri : $finalUri")
+                    Glide.with(applicationContext)
+                        .load(finalUri)
+                        .into(findViewById(R.id.cover_img))
+                }
             }
         }
-    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cover_photo)
         mProgressBar = findViewById(R.id.phoneProgressBar)
         mProgressBar.visibility = View.INVISIBLE
-        FirebaseDatabase.getInstance().getReference("Users").
-        child(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnSuccessListener {
+
+        if (intent.hasExtra("FLAG")) {
+            this.flag = intent.getStringExtra("FLAG").toString()
+        }
+        if (intent.hasExtra("postFlag")) {
+            this.postFlag = intent.getStringExtra("postFlag").toString()
+        }
+
+        FirebaseDatabase.getInstance().getReference("Users")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnSuccessListener {
             val imageURL = it.child("coverImageURL").value.toString()
             Glide.with(applicationContext).load(imageURL).into(findViewById(R.id.cover_img))
         }
-        findViewById<ImageView>(R.id.cover_img).setOnClickListener{
-            if (checkSelfPermission()){
+        findViewById<ImageView>(R.id.cover_img).setOnClickListener {
+            if (checkSelfPermission()) {
                 pickImageFromGallery()
-            }
-            else {
-                Toast.makeText(applicationContext, "Allow all permissions", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(applicationContext, "Allow all permissions", Toast.LENGTH_SHORT)
+                    .show()
                 requestPermission()
             }
         }
         findViewById<TextView>(R.id.btn_post).setOnClickListener {
+            if (postFlag == "0") {
+                Toast.makeText(this, "Please pick a picture first", Toast.LENGTH_SHORT).show()
+            } else {
                 mProgressBar.visibility = View.VISIBLE
                 savePostDetailsToDatabase()
+            }
         }
         findViewById<TextView>(R.id.btn_skip).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
+            if (flag == "") {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+            } else {
+                finish()
+            }
         }
     }
+
     private fun savePostDetailsToDatabase() {
         var imageURL: String? = null
         val uploadedBy = FirebaseAuth.getInstance().currentUser!!.uid
@@ -99,6 +122,7 @@ class coverPhotoActivity : AppCompatActivity() {
                     val intent = Intent(this@coverPhotoActivity, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
+
                 } else {
                     Log.d("TAG", "savePostDetailsToDatabase: ${task.exception}")
                 }
@@ -130,11 +154,14 @@ class coverPhotoActivity : AppCompatActivity() {
 
     private fun requestPermission() {
         Log.d("tag", "requestPermission: ")
-        requestPermissions(arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
-        ), 100)
+        requestPermissions(
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            ), 100
+        )
     }
+
     private fun checkSelfPermission(): Boolean {
         Log.d("tag", "onCreateView: checkSelfPermission ")
         return ContextCompat.checkSelfPermission(
@@ -159,7 +186,7 @@ class coverPhotoActivity : AppCompatActivity() {
         var destinationFileName: String = StringBuilder(UUID.randomUUID().toString()).toString()
         destinationFileName += ".jpg"
         val uCrop = UCrop.of(imageUri, Uri.fromFile(File(cacheDir, destinationFileName)))
-        uCrop.withAspectRatio(25F, 10F);
+        uCrop.withAspectRatio(27F, 10F);
         getCropOptions().let { uCrop.withOptions(it) }
         val uCropIntent = uCrop.getIntent(applicationContext)
         resultLauncher.launch(uCropIntent)
@@ -175,7 +202,8 @@ class coverPhotoActivity : AppCompatActivity() {
 
         //UI
         options.setHideBottomControls(false)
-        options.setFreeStyleCropEnabled(true)
+        options.setFreeStyleCropEnabled(false)
+
 
         options.setToolbarTitle("Crop Image")
         Log.d("tag", "getCropOptions: ")
