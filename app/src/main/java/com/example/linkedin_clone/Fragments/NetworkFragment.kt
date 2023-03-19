@@ -22,6 +22,10 @@ import com.example.linkedin_clone.ui.manageNetwork
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class NetworkFragment : Fragment() {
     private lateinit var dbref : DatabaseReference
@@ -82,22 +86,29 @@ class NetworkFragment : Fragment() {
         dbref.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    if (snapshot.exists()) {
+                        view.findViewById<LinearLayout>(R.id.showMore).visibility = View.VISIBLE
+                        for (userSnapshot in snapshot.children) {
+                            val database = FirebaseDatabase.getInstance().getReference("Users")
+                                .child(userSnapshot.key.toString())
+                            val user = ConnectionRequestUser(
+                                userSnapshot.key.toString(),
+                                database.child("name").get().await().value.toString(),
+                                database.child("headline").get().await().value.toString(),
+                                database.child("profileImageURL").get().await().value.toString(),
+                                database.child("coverImageURL").get().await().value.toString()
+                            )
+                            userArrayList.add(user)
 
-                if (snapshot.exists()){
-                    view.findViewById<LinearLayout>(R.id.showMore).visibility = View.VISIBLE
-                    for(userSnapshot in snapshot.children) {
-                        val user = ConnectionRequestUser(userSnapshot.key.toString(),
-                            userSnapshot.value.toString())
-                        userArrayList.add(user)
+                        }
+
+                        networkAdapter = NetworkAdapter()
+                        userRecyclerview.adapter = networkAdapter
+                        networkAdapter.submitList(userArrayList)
 
                     }
-
-                    networkAdapter = NetworkAdapter()
-                    userRecyclerview.adapter = networkAdapter
-                    networkAdapter.submitList(userArrayList)
-
                 }
-
             }
 
             override fun onCancelled(error: DatabaseError) {

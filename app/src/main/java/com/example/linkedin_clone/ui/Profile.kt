@@ -69,6 +69,9 @@ class Profile : AppCompatActivity() {
             findViewById<CardView>(R.id.Btn1).setOnClickListener {
                 val getButtonText = findViewById<TextView>(R.id.connectBtn).text.toString()
                 when {
+                    getButtonText == "Open to" -> {
+                        Toast.makeText(applicationContext, "Not yet implemented", Toast.LENGTH_SHORT).show()
+                    }
                     getButtonText == "Connect" -> {
                         Toast.makeText(applicationContext, "Connect Request sent",Toast.LENGTH_SHORT).show()
                         firebaseUser.uid.let { it1 ->

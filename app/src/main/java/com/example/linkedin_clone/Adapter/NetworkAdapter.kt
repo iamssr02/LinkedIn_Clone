@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -13,9 +15,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.linkedin_clone.DataClasses.ConnectionRequestUser
 import com.example.linkedin_clone.R
 import com.example.linkedin_clone.ui.Profile
+import com.example.linkedin_clone.ui.postActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
@@ -39,6 +43,13 @@ class NetworkAdapter() : ListAdapter<ConnectionRequestUser, NetworkAdapter.Conne
         holder.bindView(item, context)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
+
+        holder.itemView.findViewById<RelativeLayout>(R.id.item_click_parent).setOnClickListener {
+            Log.d("TAG", "networkCheck: ${item.id}")
+            val intent = Intent(context, Profile::class.java)
+            intent.putExtra("ID", item.id)
+            (context as FragmentActivity).startActivity(intent)
+        }
 
         FirebaseDatabase.getInstance().getReference("Users").child(item.id).get().addOnSuccessListener {
             this.pname = it.child("name").value.toString()
@@ -71,23 +82,17 @@ class NetworkAdapter() : ListAdapter<ConnectionRequestUser, NetworkAdapter.Conne
                     .child("Requests").child(item.id).removeValue()
             }
         }
-        holder.itemView.findViewById<CardView>(R.id.item_parent).setOnClickListener {
-            Log.d("TAG", "onBindViewHolder: Clicked")
-            Toast.makeText(context,"Clicked ${item.id}",Toast.LENGTH_SHORT).show()
-//            val pref = context.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
-//            pref.putString("profileId",item.id)
-//            pref.apply()
-//            (context as FragmentActivity).startActivity(
-//                Intent(this@NetworkAdapter.context,
-//                    Profile::class.java)
-//            )
-        }
     }
 
     class ConnectionsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val user: TextView = itemView.findViewById(R.id.item_text)
+        val headline: TextView = itemView.findViewById(R.id.item_headline)
+        val profileImage: ImageView = itemView.findViewById(R.id.item_image)
+
         fun bindView(item: ConnectionRequestUser, context: Context) {
-            val user: TextView = itemView.findViewById(R.id.item_text)
             user.text = item.firstName
+            headline.text = item.headline
+            Glide.with(context).load(item.profileImage).into(profileImage)
         }
     }
 
@@ -98,7 +103,7 @@ class ConnectionDiffUtilCallback() : DiffUtil.ItemCallback<ConnectionRequestUser
         oldItem: ConnectionRequestUser,
         newItem: ConnectionRequestUser
     ): Boolean {
-        return oldItem.firstName == newItem.firstName
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(

@@ -42,7 +42,7 @@ ImagesDiffUtilCallback()
         holder.bindView(item, context)
         val currentUid = FirebaseAuth.getInstance().currentUser!!.uid
 
-        checkLikeStatus(item, holder.itemView)
+//        checkLikeStatus(item, holder.itemView)
 
         holder.itemView.setOnClickListener {
 //            Toast.makeText(context, item.id, Toast.LENGTH_SHORT).show()
